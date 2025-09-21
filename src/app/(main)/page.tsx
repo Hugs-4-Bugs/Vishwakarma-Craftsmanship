@@ -57,7 +57,7 @@ function Hero() {
           style={{ opacity: opacityHero }}
         >
           <div className="container mx-auto px-4 flex flex-col flex-grow text-white text-center">
-            <div className="flex-1 flex flex-col items-center justify-end pb-12">
+            <div className="flex-1 flex flex-col items-center justify-end pb-8 sm:pb-12">
                 <h1 className="font-headline text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
                   Style Your Home with
                 </h1>
@@ -76,7 +76,7 @@ function Hero() {
                   </Button>
                 </div>
             </div>
-             <div className="mb-4 w-full max-w-4xl mx-auto h-48 sm:h-56 md:h-64 flex items-center justify-center bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-4">
+             <div className="mb-4 w-full max-w-4xl mx-auto h-48 sm:h-56 md:h-64 flex items-center justify-center bg-black/40 backdrop-blur-md rounded-2xl border border-white/20 p-4">
                 <Carousel
                   opts={{
                     align: "start",
