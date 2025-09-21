@@ -28,7 +28,7 @@ function Hero() {
   const bgImage = PlaceHolderImages.find(p => p.id === 'hero-bg');
   
   const showcaseImages = [
-    'sofa-1', 'beds-1', 'tables-1', 'chairs-1', 'wardrobes-1', 'dining-1'
+    'sofa-1', 'beds-1', 'tables-1', 'chairs-1', 'wardrobes-1', 'dining-1', 'sofa-2', 'beds-2'
   ].map(id => PlaceHolderImages.find(p => p.id === id)).filter(Boolean) as (typeof PlaceHolderImages[0])[];
 
 
@@ -76,36 +76,30 @@ function Hero() {
                   </Button>
                 </div>
             </div>
-             <div className="mb-4 w-full max-w-4xl mx-auto h-48 sm:h-56 md:h-64 flex items-center justify-center bg-black/40 backdrop-blur-md rounded-2xl border border-white/20 p-4">
-                <Carousel
-                  opts={{
-                    align: "start",
-                    loop: true,
-                  }}
-                  className="w-full h-full"
+             <div className="mb-4 w-full max-w-5xl mx-auto h-48 sm:h-56 md:h-64 flex items-center justify-center bg-black/40 backdrop-blur-md rounded-2xl border border-white/20 p-4 overflow-hidden">
+                <motion.div 
+                    className="flex gap-4"
+                    animate={{ x: '-100%' }}
+                    transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
                 >
-                  <CarouselContent className="h-full">
-                    {showcaseImages.map((image, index) => (
-                      <CarouselItem key={index} className="basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 h-full flex items-center justify-center">
-                        <div className="p-1 h-full w-full">
-                           <Card className="h-full w-full overflow-hidden bg-transparent border-none">
-                            <CardContent className="relative flex h-full w-full items-center justify-center p-0">
-                              <Image
-                                src={image.imageUrl}
-                                alt={image.imageHint}
-                                width={300}
-                                height={200}
-                                className="object-contain h-auto w-full transition-transform duration-300 hover:scale-105"
-                                data-ai-hint={image.imageHint}
-                                data-cursor-interactive
-                              />
-                            </CardContent>
-                          </Card>
-                        </div>
-                      </CarouselItem>
+                    {[...showcaseImages, ...showcaseImages].map((image, index) => (
+                         <div key={index} className="flex-shrink-0 w-48 h-40">
+                             <Card className="h-full w-full overflow-hidden bg-white/10">
+                                <CardContent className="relative flex h-full w-full items-center justify-center p-0">
+                                <Image
+                                    src={image.imageUrl}
+                                    alt={image.imageHint}
+                                    width={300}
+                                    height={200}
+                                    className="object-contain h-auto w-full transition-transform duration-300 hover:scale-105"
+                                    data-ai-hint={image.imageHint}
+                                    data-cursor-interactive
+                                />
+                                </CardContent>
+                            </Card>
+                         </div>
                     ))}
-                  </CarouselContent>
-                </Carousel>
+                </motion.div>
              </div>
           </div>
         </motion.div>
