@@ -7,112 +7,68 @@ export const categories = [
   { slug: 'tables', name: 'Tables' },
   { slug: 'chairs', name: 'Chairs' },
   { slug: 'wardrobes', name: 'Wardrobes' },
+  { slug: 'storage', name: 'Storage' },
+  { slug: 'office', name: 'Office' },
   { slug: 'premium', name: 'Premium' },
   { slug: 'budget', name: 'Budget' },
 ];
 
-export const products: Product[] = [
-  {
-    id: '1',
-    name: 'Royal Oak Sofa',
-    slug: 'royal-oak-sofa',
-    category: 'Sofa',
-    price: 49999,
-    description: 'A luxurious sofa made from the finest royal oak, offering unparalleled comfort and style.',
-    image: 'prod-1',
-    dimensions: '220cm x 90cm x 85cm',
-  },
-  {
-    id: '2',
-    name: 'Modernist Bed',
-    slug: 'modernist-bed',
-    category: 'Beds',
-    price: 35000,
-    description: 'Sleek and minimalist bed frame, perfect for a contemporary bedroom aesthetic.',
-    image: 'prod-2',
-    dimensions: '180cm x 200cm x 90cm',
-  },
-  {
-    id: '3',
-    name: 'Grand Dining Table',
-    slug: 'grand-dining-table',
-    category: 'Dining',
-    price: 65000,
-    description: 'An expansive dining table that seats eight, crafted from rich mahogany.',
-    image: 'prod-3',
-    dimensions: '240cm x 100cm x 75cm',
-  },
-  {
-    id: '4',
-    name: 'Artisan Coffee Table',
-    slug: 'artisan-coffee-table',
-    category: 'Tables',
-    price: 12500,
-    description: 'A unique, handcrafted coffee table with intricate carvings.',
-    image: 'prod-4',
-    dimensions: '120cm x 60cm x 45cm',
-  },
-  {
-    id: '5',
-    name: 'Ergo-Comfort Chair',
-    slug: 'ergo-comfort-chair',
-    category: 'Chairs',
-    price: 8999,
-    description: 'Ergonomically designed chair for maximum comfort during long hours of sitting.',
-    image: 'prod-5',
-    dimensions: '60cm x 65cm x 110cm',
-  },
-  {
-    id: '6',
-    name: 'Heirloom Wardrobe',
-    slug: 'heirloom-wardrobe',
-    category: 'Wardrobes',
-    price: 85000,
-    description: 'A spacious and elegant wardrobe with classic design, built to last for generations.',
-    image: 'prod-6',
-    dimensions: '200cm x 60cm x 220cm',
-  },
-  {
-    id: '7',
-    name: 'Celestial Sofa (Premium)',
-    slug: 'celestial-sofa-premium',
-    category: 'Premium',
-    price: 120000,
-    description: 'The pinnacle of luxury. Upholstered in velvet with gold-plated accents.',
-    image: 'prod-7',
-    dimensions: '250cm x 100cm x 90cm',
-  },
-  {
-    id: '8',
-    name: 'Compact Study Table',
-    slug: 'compact-study-table',
-    category: 'Budget',
-    price: 7500,
-    description: 'A simple, sturdy, and affordable table for students and small spaces.',
-    image: 'prod-8',
-    dimensions: '100cm x 50cm x 75cm',
-  },
-  {
-    id: '9',
-    name: 'Plush Velvet Armchair',
-    slug: 'plush-velvet-armchair',
-    category: 'Chairs',
-    price: 15999,
-    description: 'Sink into the comfort of this plush velvet armchair, a perfect accent piece.',
-    image: 'prod-9',
-    dimensions: '85cm x 80cm x 95cm',
-  },
-  {
-    id: '10',
-    name: 'Rustic King Bed',
-    slug: 'rustic-king-bed',
-    category: 'Beds',
-    price: 42000,
-    description: 'A king-sized bed with a rustic finish, bringing warmth and character to your bedroom.',
-    image: 'prod-10',
-    dimensions: '190cm x 210cm x 120cm',
-  },
+const productBases = [
+    { name: 'Sofa', category: 'Sofa', price: 45000, desc: 'A comfortable and stylish centerpiece for your living room.' },
+    { name: 'Bed', category: 'Beds', price: 38000, desc: 'Ensures a restful night\'s sleep with its sturdy frame and elegant design.' },
+    { name: 'Dining Table', category: 'Dining', price: 55000, desc: 'Gather your family around this beautiful and durable dining table.' },
+    { name: 'Coffee Table', category: 'Tables', price: 15000, desc: 'The perfect companion for your sofa, combining form and function.' },
+    { name: 'Armchair', category: 'Chairs', price: 18000, desc: 'A cozy spot to read a book or enjoy a cup of tea.' },
+    { name: 'Wardrobe', category: 'Wardrobes', price: 65000, desc: 'Spacious and elegant storage for your clothing and accessories.' },
+    { name: 'Bookshelf', category: 'Storage', price: 22000, desc: 'Showcase your literary collection with this stylish bookshelf.' },
+    { name: 'Office Chair', category: 'Office', price: 12000, desc: 'Ergonomic support for a productive workday.' },
+    { name: 'Sideboard', category: 'Storage', price: 28000, desc: 'Elegant storage for your dining room or hallway.' },
+    { name: 'Study Desk', category: 'Office', price: 19000, desc: 'A dedicated space for focus and creativity.' },
+    { name: 'Lounge Chair', category: 'Chairs', price: 25000, desc: 'Relax in style with this modern and comfortable lounge chair.' },
+    { name: 'King Bed', category: 'Beds', price: 48000, desc: 'Experience ultimate comfort and space with our king-sized bed.' },
+    { name: 'Sectional Sofa', category: 'Sofa', price: 85000, desc: 'Flexible and spacious seating for the whole family.' },
+    { name: 'Dresser', category: 'Storage', price: 32000, desc: 'A beautiful and practical addition to your bedroom.' },
+    { name: 'Dining Chair', category: 'Dining', price: 7000, desc: 'Comfortable and elegant seating for your dining table.' },
 ];
+
+const woodTypes = [
+    { name: 'Sheesham', priceMod: 1.2, prefix: 'Sheesham' },
+    { name: 'Teak', priceMod: 1.5, prefix: 'Teak Wood' },
+    { name: 'Mango Wood', priceMod: 1.0, prefix: 'Mango Wood' },
+    { name: 'Sal Wood', priceMod: 1.3, prefix: 'Sal Wood' },
+    { name: 'Oak', priceMod: 1.1, prefix: 'Royal Oak' },
+    { name: 'Acacia', priceMod: 1.0, prefix: 'Acacia' },
+    { name: 'Engineered Wood', priceMod: 0.8, prefix: 'Modern' },
+];
+
+const finishes = [
+    { name: 'Natural', prefix: 'Natural Finish' },
+    { name: 'Walnut Finish', prefix: 'Walnut' },
+    { name: 'Honey Finish', prefix: 'Honey' },
+    { name: 'Matte Black', prefix: 'Noir' },
+    { name: 'Distressed White', prefix: 'Vintage' },
+];
+
+let productCounter = 1;
+export const products: Product[] = productBases.flatMap(base =>
+    woodTypes.flatMap(wood =>
+        finishes.map(finish => {
+            const productName = `${wood.prefix} ${finish.prefix} ${base.name}`;
+            const productId = `${productCounter++}`;
+            return {
+                id: productId,
+                name: productName,
+                slug: productName.toLowerCase().replace(/\s+/g, '-'),
+                category: base.category,
+                price: Math.floor(base.price * wood.priceMod / 100) * 100,
+                description: base.desc,
+                image: `prod-${( ( (productCounter-2) % 15) + 1)}`, // Cycle through 15 placeholder images
+                dimensions: '180cm x 200cm x 90cm', // Placeholder dimensions
+            };
+        })
+    )
+).slice(0, 155); // Limit to 155 products for now
+
 
 export const carpenters: Carpenter[] = [
   {

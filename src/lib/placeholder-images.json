@@ -1,3 +1,4 @@
+
 {
   "placeholderImages": [
     {
@@ -59,6 +60,36 @@
       "description": "A king-sized bed with a rustic wooden frame.",
       "imageUrl": "https://picsum.photos/seed/prod10/600/400",
       "imageHint": "rustic bed"
+    },
+     {
+      "id": "prod-11",
+      "description": "A stylish bookshelf for a modern living room.",
+      "imageUrl": "https://picsum.photos/seed/prod11/600/400",
+      "imageHint": "stylish bookshelf"
+    },
+    {
+      "id": "prod-12",
+      "description": "A sectional sofa for a large family.",
+      "imageUrl": "https://picsum.photos/seed/prod12/600/400",
+      "imageHint": "sectional sofa"
+    },
+    {
+      "id": "prod-13",
+      "description": "A sleek and modern dresser for a bedroom.",
+      "imageUrl": "https://picsum.photos/seed/prod13/600/400",
+      "imageHint": "modern dresser"
+    },
+    {
+      "id": "prod-14",
+      "description": "A comfortable dining chair with a classic design.",
+      "imageUrl": "https://picsum.photos/seed/prod14/600/400",
+      "imageHint": "dining chair"
+    },
+    {
+      "id": "prod-15",
+      "description": "A minimalist sideboard for dining storage.",
+      "imageUrl": "https://picsum.photos/seed/prod15/600/400",
+      "imageHint": "minimalist sideboard"
     },
     {
       "id": "carpenter-1",
