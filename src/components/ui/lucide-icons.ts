@@ -35,6 +35,8 @@ export {
     RotateCw,
     Sparkles,
     LoaderCircle,
+    Hammer,
+    Palette,
+    Ruler,
+    Layers
 } from 'lucide-react';
-
-    

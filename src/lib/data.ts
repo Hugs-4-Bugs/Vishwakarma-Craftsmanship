@@ -12,6 +12,33 @@ export const categories = [
   { slug: 'office', name: 'Office' },
 ];
 
+export const customBuilderOptions = {
+  types: [
+    { name: 'Sofa', basePrice: 25000, image: 'sofa-1' },
+    { name: 'Bed', basePrice: 20000, image: 'beds-1' },
+    { name: 'Dining Table', basePrice: 30000, image: 'dining-1' },
+    { name: 'Chair', basePrice: 5000, image: 'chairs-1' },
+    { name: 'Wardrobe', basePrice: 35000, image: 'wardrobes-1' },
+    { name: 'Table', basePrice: 10000, image: 'tables-1' },
+  ],
+  woods: [
+    { name: 'Sheesham', priceMultiplier: 1.2 },
+    { name: 'Teak', priceMultiplier: 1.8 },
+    { name: 'Mango Wood', priceMultiplier: 1.0 },
+    { name: 'Sal Wood', priceMultiplier: 1.4 },
+    { name: 'Plyboard', priceMultiplier: 0.7 },
+    { name: 'Other', priceMultiplier: 2.0 },
+  ],
+  finishes: [
+    { name: 'Natural', priceMultiplier: 1.0 },
+    { name: 'Walnut', priceMultiplier: 1.1 },
+    { name: 'Honey', priceMultiplier: 1.05 },
+    { name: 'Matte', priceMultiplier: 1.15 },
+    { name: 'Glossy', priceMultiplier: 1.2 },
+  ],
+};
+
+
 const productBases = [
     { name: 'Sofa', category: 'Sofa', price: 45000, desc: 'A comfortable and stylish centerpiece for your living room.' },
     { name: 'Bed', category: 'Beds', price: 38000, desc: 'Ensures a restful night\'s sleep with its sturdy frame and elegant design.' },

@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Menu, X, ShoppingCart, Sparkles } from 'lucide-react';
+import { Menu, X, ShoppingCart, Sparkles, Hammer } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
@@ -15,6 +15,7 @@ import { Logo } from '@/components/icons/logo';
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/shop', label: 'Shop' },
+  { href: '/custom-builder', label: 'Custom Build', icon: Hammer },
   { href: '/carpenters', label: 'Carpenters' },
   { href: '/style-quiz', label: 'Style Quiz', icon: Sparkles },
   { href: '/about', label: 'About' },
@@ -30,13 +31,11 @@ export function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // For homepage, header becomes "scrolled" after user scrolls past the hero viewport height (100vh)
-      // For other pages, it's immediate.
       const scrollThreshold = isHomePage ? window.innerHeight : 10;
       setIsScrolled(window.scrollY > scrollThreshold);
     };
 
-    handleScroll(); // Set initial state
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isHomePage]);
@@ -77,7 +76,7 @@ export function Header() {
                 href={link.href}
                 className={linkClasses(link.href)}
               >
-                {link.icon && <link.icon className={cn("h-4 w-4", link.href === '/style-quiz' ? "text-accent" : "")} />}
+                {link.icon && <link.icon className={cn("h-4 w-4", link.href === '/style-quiz' ? "text-accent" : "", link.href === '/custom-builder' ? "text-accent" : "")} />}
                 {link.label}
               </Link>
             ))}
@@ -121,7 +120,7 @@ export function Header() {
                     pathname === link.href ? 'text-primary' : 'text-foreground/80'
                   )}
                 >
-                  {link.icon && <link.icon className={cn("h-5 w-5", link.href === '/style-quiz' ? "text-accent" : "")} />}
+                  {link.icon && <link.icon className={cn("h-5 w-5", link.href === '/style-quiz' ? "text-accent" : "", link.href === '/custom-builder' ? "text-accent" : "")} />}
                   {link.label}
                 </Link>
               ))}
