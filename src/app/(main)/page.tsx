@@ -177,7 +177,7 @@ export default function HomePage() {
       </Section>
       
       <Section>
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="font-headline text-3xl md:text-4xl font-bold">Need a Professional Hand?</h2>
               <p className="mt-4 text-lg text-muted-foreground">
