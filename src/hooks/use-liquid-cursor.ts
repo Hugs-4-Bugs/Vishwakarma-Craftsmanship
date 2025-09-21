@@ -1,7 +1,8 @@
 
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { motion, useSpring } from 'framer-motion';
 
 export function useLiquidCursor() {
   useEffect(() => {
@@ -10,9 +11,13 @@ export function useLiquidCursor() {
       return;
     }
 
+    const cursorRoot = document.createElement('div');
+    cursorRoot.id = 'liquid-cursor-root';
+    document.body.appendChild(cursorRoot);
+    
     const cursor = document.createElement('div');
     cursor.id = 'liquid-cursor';
-    document.body.appendChild(cursor);
+    cursorRoot.appendChild(cursor);
 
     const cursorText = document.createElement('span');
     cursorText.id = 'liquid-cursor-text';
@@ -21,8 +26,10 @@ export function useLiquidCursor() {
     let mouse = { x: -100, y: -100 };
     let pos = { x: 0, y: 0 };
     const speed = 0.1;
-    let size = 20; 
-    let targetSize = 20;
+    
+    const springConfig = { damping: 25, stiffness: 300 };
+    const x = useSpring(mouse.x, springConfig);
+    const y = useSpring(mouse.y, springConfig);
 
     const updatePosition = () => {
       pos.x += (mouse.x - pos.x) * speed;
@@ -42,12 +49,14 @@ export function useLiquidCursor() {
     const updateCursor = (e: MouseEvent) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
+      x.set(e.clientX);
+      y.set(e.clientY);
     };
     
     const onMouseEnter = (e: MouseEvent) => {
       const target = e.currentTarget as HTMLElement;
-      targetSize = parseFloat(target.getAttribute('data-cursor-size') || '60');
       cursor.classList.add('grow');
+      
       const text = target.getAttribute('data-cursor-text');
       if (text) {
         cursorText.innerText = text;
@@ -56,7 +65,6 @@ export function useLiquidCursor() {
     };
     
     const onMouseLeave = () => {
-      targetSize = 20;
       cursor.classList.remove('grow');
       cursor.classList.remove('text-visible');
       cursorText.innerText = '';
@@ -80,7 +88,7 @@ export function useLiquidCursor() {
         el.removeEventListener('mouseenter', onMouseEnter);
         el.removeEventListener('mouseleave', onMouseLeave);
       });
-      cursor.remove();
+      cursorRoot.remove();
     };
   }, []);
 }

@@ -13,6 +13,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { useLiquidCursor } from '@/hooks/use-liquid-cursor';
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 
 function Hero() {
   const targetRef = useRef<HTMLDivElement>(null);
@@ -27,6 +28,11 @@ function Hero() {
   const bgImage = PlaceHolderImages.find(p => p.id === 'hero-bg');
   
   useLiquidCursor();
+
+  const showcaseImages = [
+    'sofa-1', 'beds-1', 'tables-1', 'chairs-1', 'wardrobes-1', 'dining-1'
+  ].map(id => PlaceHolderImages.find(p => p.id === id)).filter(Boolean) as (typeof PlaceHolderImages[0])[];
+
 
   return (
     <div ref={targetRef} className="relative h-[120vh] -mt-20">
@@ -68,8 +74,35 @@ function Hero() {
                 <Link href="/custom-builder">Build Custom Furniture</Link>
               </Button>
             </div>
-             <div className="mt-16 w-full max-w-4xl h-64 flex items-center justify-center bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
-                <p className="text-2xl font-bold text-white/80">[3D Furniture Showcase Coming Soon]</p>
+             <div className="mt-16 w-full max-w-4xl h-64 flex items-center justify-center bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-4">
+                <Carousel
+                  opts={{
+                    align: "start",
+                    loop: true,
+                  }}
+                  className="w-full h-full"
+                >
+                  <CarouselContent className="h-full">
+                    {showcaseImages.map((image, index) => (
+                      <CarouselItem key={index} className="basis-1/2 md:basis-1/3 lg:basis-1/4 h-full flex items-center justify-center">
+                        <div className="p-1 h-full w-full">
+                           <Card className="h-full w-full overflow-hidden bg-transparent border-none">
+                            <CardContent className="relative flex h-full w-full items-center justify-center p-0">
+                              <Image
+                                src={image.imageUrl}
+                                alt={image.imageHint}
+                                width={300}
+                                height={200}
+                                className="object-contain h-auto w-full transition-transform duration-300 hover:scale-105"
+                                data-ai-hint={image.imageHint}
+                              />
+                            </CardContent>
+                          </Card>
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                </Carousel>
              </div>
           </div>
         </motion.div>
