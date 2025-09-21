@@ -58,7 +58,7 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <h4 className="font-semibold">Our Address</h4>
-                                        <p className="text-sm text-secondary-foreground/80">123 Craftwood Lane, Artisan City, IN 462001</p>
+                                        <p className="text-sm text-secondary-foreground/80">Geeta Ghat Colony, near Bijli Office, Fazalganj, Sasaram, Bihar — PIN: 821113</p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-4">
@@ -67,7 +67,7 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <h4 className="font-semibold">Phone</h4>
-                                        <p className="text-sm text-secondary-foreground/80">+91 98765 43210</p>
+                                        <p className="text-sm text-secondary-foreground/80">+91 7250063206</p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-4">

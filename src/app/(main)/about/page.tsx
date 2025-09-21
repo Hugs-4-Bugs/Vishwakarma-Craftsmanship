@@ -34,7 +34,7 @@ export default function AboutPage() {
                             <ul className="space-y-3">
                                 <li className="flex items-start"><CheckCircle className="h-5 w-5 text-accent mr-3 mt-1 shrink-0" /><span><strong>Unmatched Quality:</strong> Using only the finest, sustainably sourced wood.</span></li>
                                 <li className="flex items-start"><CheckCircle className="h-5 w-5 text-accent mr-3 mt-1 shrink-0" /><span><strong>Artisan Empowerment:</strong> Providing a platform for skilled carpenters to showcase their talent.</span></li>
-                                <li className="flex items-start"><CheckCircle className="h-5 w-5 text-accent mr-3 mt-1 shrink-0" /><span><strong>Customer-Centric:</strong> Ensuring every piece of furniture brings joy and comfort to your home.</span></li>
+                                <li className="flex items-start"><CheckCircle className="h-5 w-5 text-accent mr-3 mt-1 shrink-out" /><span><strong>Customer-Centric:</strong> Ensuring every piece of furniture brings joy and comfort to your home.</span></li>
                             </ul>
                         </div>
                         <div>
