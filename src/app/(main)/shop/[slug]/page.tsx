@@ -3,10 +3,10 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { products, carpenters } from '@/lib/data';
+import { useParams } from 'next/navigation';
+import { products } from '@/lib/data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import type { Product } from '@/lib/types';
-import { notFound } from 'next/navigation';
 import { motion, useDragControls } from "framer-motion";
 
 import { Button } from '@/components/ui/button';
@@ -166,15 +166,15 @@ function ARViewerModal({ children, product }: { children: React.ReactNode, produ
 }
 
 
-export default function ProductDetailPage({ params }: { params: { slug: string } }) {
+export default function ProductDetailPage() {
+    const params = useParams();
     const [product, setProduct] = useState<Product | undefined>(undefined);
 
     useEffect(() => {
-        const foundProduct = products.find(p => p.slug === params.slug);
-        if (!foundProduct) {
-            // This is a client component, so we handle "not found" statefully
-            // instead of calling notFound() during render.
-        }
+        const slug = params.slug;
+        if (typeof slug !== 'string') return;
+        
+        const foundProduct = products.find(p => p.slug === slug);
         setProduct(foundProduct);
     }, [params.slug]);
 
@@ -284,5 +284,3 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
     </div>
   );
 }
-
-    
