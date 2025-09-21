@@ -66,41 +66,55 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* Hide the default cursor for a custom cursor experience */
+    cursor: none;
+  }
+  /* Ensure interactive elements also hide default cursor */
+  a, button {
+    cursor: none;
   }
 }
 
 @layer components {
-  #liquid-cursor {
-    @apply pointer-events-none fixed top-0 left-0 -translate-x-1/2 -translate-y-1/2 z-[9999] rounded-full;
-    width: 20px;
-    height: 20px;
-    background-color: hsl(var(--primary) / 0.8);
-    backdrop-filter: hue-rotate(45deg);
-    transform: translate3d(var(--x), var(--y), 0);
-    transition: width 0.4s ease, height 0.4s ease, background-color 0.4s ease;
-    transform-origin: center center;
-    --scale: 1;
-    --rotation: 0deg;
+  /* This container uses the SVG filter to create the gooey effect */
+  #liquid-cursor-container {
+    @apply pointer-events-none fixed inset-0 z-[9999];
+    filter: url('#goo');
   }
 
-  #liquid-cursor::after {
-    @apply content-[''] absolute inset-0 rounded-full transition-transform duration-300 ease-out;
-    background-color: hsl(var(--primary));
-    transform: scale(var(--scale)) rotate(var(--rotation));
-    opacity: 0.5;
+  /* The main visible cursor dot */
+  #liquid-cursor {
+    @apply absolute top-0 left-0 rounded-full bg-primary;
+    width: 25px;
+    height: 25px;
+    transform: translate(var(--x, -50px), var(--y, -50px)) translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease;
+    will-change: width, height, transform;
   }
 
   #liquid-cursor.grow {
-    width: 80px;
-    height: 80px;
-    background-color: hsl(var(--primary) / 0.9);
+    width: 60px;
+    height: 60px;
+  }
+
+  /*
+    When an element is hovered, we apply this class to it.
+    This creates a "bubble" of the same primary color that merges
+    with the cursor dot because they are both inside the SVG filter container.
+  */
+  .cursor-hover-target::before {
+    @apply content-[''] absolute top-1/2 left-1/2 rounded-full -z-10 bg-primary;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .cursor-hover-target:hover::before {
+    transform: translate(-50%, -50%) scale(1.5);
   }
   
-  #liquid-cursor-text {
-      @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-primary-foreground font-bold uppercase text-xs tracking-widest opacity-0 transition-opacity duration-300;
-  }
-  
-  #liquid-cursor.text-visible #liquid-cursor-text {
-      @apply opacity-100;
+  a.cursor-hover-target, button.cursor-hover-target {
+    @apply relative z-0;
   }
 }

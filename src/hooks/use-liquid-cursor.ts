@@ -5,76 +5,71 @@ import { useEffect } from 'react';
 import { useSpring } from 'framer-motion';
 
 export function useLiquidCursor() {
-  const springConfig = { damping: 25, stiffness: 300 };
-  const x = useSpring(-100, springConfig);
-  const y = useSpring(-100, springConfig);
+  const springConfig = { damping: 25, stiffness: 300, mass: 0.5 };
+  const x = useSpring(0, springConfig);
+  const y = useSpring(0, springConfig);
 
   useEffect(() => {
-    const isTouchDevice = 'ontouchstart' in window;
-    if (isTouchDevice) {
+    // Check for touch devices
+    if ('ontouchstart' in window) {
       return;
     }
-
-    const cursorRoot = document.createElement('div');
-    cursorRoot.id = 'liquid-cursor-root';
-    document.body.appendChild(cursorRoot);
     
-    const cursor = document.createElement('div');
-    cursor.id = 'liquid-cursor';
-    cursorRoot.appendChild(cursor);
-
-    const cursorText = document.createElement('span');
-    cursorText.id = 'liquid-cursor-text';
-    cursor.appendChild(cursorText);
-
-    let mouse = { x: -100, y: -100 };
-    let pos = { x: 0, y: 0 };
-    const speed = 0.1;
+    // Create cursor elements only on client-side
+    let cursorRoot = document.getElementById('liquid-cursor-root');
+    if (!cursorRoot) {
+      cursorRoot = document.createElement('div');
+      cursorRoot.id = 'liquid-cursor-root';
+      document.body.appendChild(cursorRoot);
+    }
     
-    const updatePosition = () => {
-      pos.x += (mouse.x - pos.x) * speed;
-      pos.y += (mouse.y - pos.y) * speed;
-      cursor.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
+    // SVG filter for the gooey effect
+    cursorRoot.innerHTML = `
+      <svg id="goo-filter" width="0" height="0" style="position:absolute; top: -9999px; left: -9999px;">
+        <defs>
+          <filter id="goo">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+            <feBlend in="SourceGraphic" in2="goo" />
+          </filter>
+        </defs>
+      </svg>
+      <div id="liquid-cursor-container">
+        <div id="liquid-cursor"></div>
+      </div>
+    `;
 
-      const delta = Math.sqrt(Math.pow(mouse.x - pos.x, 2) + Math.pow(mouse.y - pos.y, 2));
-      const rotation = Math.atan2(mouse.y - pos.y, mouse.x - pos.x) * (180 / Math.PI);
-      const scale = Math.min(delta / 400 + 1, 1.5);
-      
-      cursor.style.setProperty('--scale', `${scale}`);
-      cursor.style.setProperty('--rotation', `${rotation}deg`);
+    const cursorContainer = document.getElementById('liquid-cursor-container')!;
+    const cursor = document.getElementById('liquid-cursor')!;
 
-      requestAnimationFrame(updatePosition);
-    };
-
-    const updateCursor = (e: MouseEvent) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
+    const onMouseMove = (e: MouseEvent) => {
       x.set(e.clientX);
       y.set(e.clientY);
     };
-    
+
+    const unsubscribeX = x.on("change", (latest) => {
+        cursor.style.setProperty('--x', `${latest}px`);
+    });
+    const unsubscribeY = y.on("change", (latest) => {
+        cursor.style.setProperty('--y', `${latest}px`);
+    });
+
     const onMouseEnter = (e: MouseEvent) => {
       const target = e.currentTarget as HTMLElement;
       cursor.classList.add('grow');
-      
-      const text = target.getAttribute('data-cursor-text');
-      if (text) {
-        cursorText.innerText = text;
-        cursor.classList.add('text-visible');
-      }
+      target.classList.add('cursor-hover-target');
     };
     
-    const onMouseLeave = () => {
+    const onMouseLeave = (e: MouseEvent) => {
+       const target = e.currentTarget as HTMLElement;
       cursor.classList.remove('grow');
-      cursor.classList.remove('text-visible');
-      cursorText.innerText = '';
+      target.classList.remove('cursor-hover-target');
     };
 
-    updatePosition();
-    window.addEventListener('mousemove', updateCursor);
+    window.addEventListener('mousemove', onMouseMove);
     
     const interactiveElements = document.querySelectorAll(
-      'a, button, [data-cursor-size]'
+      'a, button, [data-cursor-interactive]'
     );
     
     interactiveElements.forEach(el => {
@@ -82,15 +77,18 @@ export function useLiquidCursor() {
       el.addEventListener('mouseleave', onMouseLeave);
     });
 
+    // Cleanup
     return () => {
-      window.removeEventListener('mousemove', updateCursor);
+      window.removeEventListener('mousemove', onMouseMove);
       interactiveElements.forEach(el => {
         el.removeEventListener('mouseenter', onMouseEnter);
         el.removeEventListener('mouseleave', onMouseLeave);
       });
-      if (document.body.contains(cursorRoot)) {
-        document.body.removeChild(cursorRoot);
+      if (document.body.contains(cursorRoot!)) {
+        // document.body.removeChild(cursorRoot!);
       }
+      unsubscribeX();
+      unsubscribeY();
     };
-  }, [x, y]);
+  }, []);
 }

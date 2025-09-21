@@ -12,7 +12,6 @@ import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-import { useLiquidCursor } from '@/hooks/use-liquid-cursor';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 
 function Hero() {
@@ -27,8 +26,6 @@ function Hero() {
 
   const bgImage = PlaceHolderImages.find(p => p.id === 'hero-bg');
   
-  useLiquidCursor();
-
   const showcaseImages = [
     'sofa-1', 'beds-1', 'tables-1', 'chairs-1', 'wardrobes-1', 'dining-1'
   ].map(id => PlaceHolderImages.find(p => p.id === id)).filter(Boolean) as (typeof PlaceHolderImages[0])[];
@@ -70,10 +67,10 @@ function Hero() {
                   Discover exquisitely crafted furniture that brings elegance, comfort, and personality to your living space.
                 </p>
                 <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <Button asChild size="lg" className="font-bold w-full sm:w-auto" data-cursor-size="80" data-cursor-text="Shop">
+                  <Button asChild size="lg" className="font-bold w-full sm:w-auto" data-cursor-interactive>
                     <Link href="/shop">Shop Ready-Made</Link>
                   </Button>
-                  <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-black font-bold w-full sm:w-auto" data-cursor-size="80" data-cursor-text="Build">
+                  <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-black font-bold w-full sm:w-auto" data-cursor-interactive>
                     <Link href="/custom-builder">Build Custom Furniture</Link>
                   </Button>
                 </div>
@@ -99,6 +96,7 @@ function Hero() {
                                 height={200}
                                 className="object-contain h-auto w-full transition-transform duration-300 hover:scale-105"
                                 data-ai-hint={image.imageHint}
+                                data-cursor-interactive
                               />
                             </CardContent>
                           </Card>
@@ -151,7 +149,7 @@ export default function HomePage() {
           ))}
         </div>
         <div className="text-center mt-12">
-          <Button asChild variant="outline" size="lg">
+          <Button asChild variant="outline" size="lg" data-cursor-interactive>
             <Link href="/shop">Explore All Products <ArrowRight className="ml-2 h-4 w-4" /></Link>
           </Button>
         </div>
@@ -163,7 +161,7 @@ export default function HomePage() {
         </SectionTitle>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {categories.slice(0, 8).map((category) => (
-            <Link key={category.slug} href={`/shop?category=${category.slug}`}>
+            <Link key={category.slug} href={`/shop?category=${category.slug}`} data-cursor-interactive>
               <Card className="h-full text-center group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:bg-card">
                 <CardContent className="p-6 flex flex-col items-center justify-center">
                   <div className="p-3 bg-primary/10 rounded-full mb-3">
@@ -184,7 +182,7 @@ export default function HomePage() {
               <p className="mt-4 text-lg text-muted-foreground">
                 Our marketplace connects you with skilled and verified carpenters for custom projects, repairs, and assembly.
               </p>
-              <Button asChild size="lg" className="mt-8">
+              <Button asChild size="lg" className="mt-8" data-cursor-interactive>
                   <Link href="/carpenters">Find a Carpenter <Wrench className="ml-2 h-4 w-4" /></Link>
               </Button>
             </div>
@@ -205,7 +203,7 @@ export default function HomePage() {
             <Lightbulb className="h-12 w-12 mx-auto text-accent mb-4" />
             <h3 className="font-headline text-2xl font-semibold mb-2">Find Your Perfect Match</h3>
             <p className="text-muted-foreground mb-6">Let our AI assistant curate a list of furniture that perfectly fits your space and taste. It's like having a personal interior designer.</p>
-            <Button size="lg" variant="default">
+            <Button size="lg" variant="default" data-cursor-interactive>
                 Get Recommendations
             </Button>
           </CardContent>
