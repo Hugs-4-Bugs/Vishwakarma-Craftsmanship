@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -9,7 +9,9 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { ArrowLeft, CheckCircle } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Info } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 function GoogleIcon(props: React.SVGProps<SVGSVGElement>) {
     return (
@@ -26,22 +28,35 @@ function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
 const TEMP_OTP = '123456';
 
 export default function SignupPage() {
+  const { toast } = useToast();
   const [role, setRole] = useState('customer');
+  
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
   const [email, setEmail] = useState('');
   const [mobile, setMobile] = useState('');
+  
   const [emailOtp, setEmailOtp] = useState('');
   const [mobileOtp, setMobileOtp] = useState('');
+
   const [emailOtpSent, setEmailOtpSent] = useState(false);
   const [mobileOtpSent, setMobileOtpSent] = useState(false);
+
   const [emailVerified, setEmailVerified] = useState(false);
   const [mobileVerified, setMobileVerified] = useState(false);
 
   const isEmailValid = useMemo(() => /^\S+@\S+\.\S+$/.test(email), [email]);
   const isMobileValid = useMemo(() => /^\d{10}$/.test(mobile), [mobile]);
-
+  
   const handleSendOtp = (type: 'email' | 'mobile') => {
     // In a real app, this would call an API to send an OTP
-    console.log(`Sending OTP to ${type}...`);
+    console.log(`Sending OTP to ${type}: ${TEMP_OTP}`);
+    toast({
+      title: "OTP Sent (For Testing)",
+      description: `The OTP for verification is ${TEMP_OTP}`,
+    })
     if (type === 'email') setEmailOtpSent(true);
     if (type === 'mobile') setMobileOtpSent(true);
   };
@@ -50,24 +65,58 @@ export default function SignupPage() {
     if (type === 'email') {
       if (emailOtp === TEMP_OTP) {
         setEmailVerified(true);
-        console.log('Email verified!');
+        toast({ title: "Success", description: "Email successfully verified." });
       } else {
-        alert('Invalid email OTP');
+        toast({ variant: 'destructive', title: 'Error', description: 'Incorrect email OTP. Please try again.' });
       }
     }
     if (type === 'mobile') {
       if (mobileOtp === TEMP_OTP) {
         setMobileVerified(true);
-        console.log('Mobile verified!');
+        toast({ title: "Success", description: "Mobile number successfully verified." });
       } else {
-        alert('Invalid mobile OTP');
+        toast({ variant: 'destructive', title: 'Error', description: 'Incorrect mobile OTP. Please try again.' });
       }
     }
   };
 
   const isSignupEnabled = useMemo(() => {
-    return emailVerified || mobileVerified;
-  }, [emailVerified, mobileVerified]);
+    const arePasswordsMatching = password && password === confirmPassword;
+    const isNameFilled = name.trim() !== '';
+    const areContactDetailsFilled = email.trim() !== '' && mobile.trim() !== '';
+
+    if (!isNameFilled || !arePasswordsMatching || !areContactDetailsFilled) {
+      return false;
+    }
+
+    if (role === 'admin') {
+      return emailVerified && mobileVerified;
+    } else { // customer
+      return emailVerified || mobileVerified;
+    }
+  }, [role, emailVerified, mobileVerified, password, confirmPassword, name, email, mobile]);
+
+  const getValidationRequirementText = () => {
+    if (role === 'admin') {
+      return "To sign up as an admin, you must verify both your email and mobile number.";
+    }
+    return "To sign up, you must verify either your email or your mobile number.";
+  };
+  
+  const getVerificationStatus = () => {
+      let status = [];
+      if (emailVerified) {
+          status.push("Email verified ✅");
+      } else {
+          status.push("Email pending");
+      }
+      if (mobileVerified) {
+          status.push("Phone verified ✅");
+      } else {
+          status.push("Phone pending");
+      }
+      return status.join(', ');
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4 py-12">
@@ -115,19 +164,32 @@ export default function SignupPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="name">Full Name</Label>
-                <Input id="name" type="text" placeholder="John Doe" required />
+                <Input id="name" type="text" placeholder="John Doe" required value={name} onChange={e => setName(e.target.value)} />
               </div>
+              
+              <Separator />
+
+              <Alert variant="default" className="bg-blue-50 border-blue-200 dark:bg-blue-950 dark:border-blue-800">
+                  <Info className="h-4 w-4 !text-blue-600 dark:!text-blue-300"/>
+                  <AlertTitle className="text-blue-800 dark:text-blue-200">Verification Required</AlertTitle>
+                  <AlertDescription className="text-blue-700 dark:text-blue-300">
+                      {getValidationRequirementText()}
+                      <br/>
+                      <span className="font-semibold text-xs">Status: {getVerificationStatus()}</span>
+                  </AlertDescription>
+              </Alert>
+
 
                <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
                   <div className="flex gap-2">
                     <Input id="email" type="email" placeholder="you@example.com" required value={email} onChange={(e) => setEmail(e.target.value)} disabled={emailVerified} />
-                    {!emailVerified && (
+                    { !(emailVerified) && (role === 'admin' || !mobileVerified) && (
                       <Button type="button" onClick={() => handleSendOtp('email')} disabled={!isEmailValid || emailOtpSent}>
                         {emailOtpSent ? 'Sent' : 'Send OTP'}
                       </Button>
                     )}
-                     {emailVerified && <CheckCircle className="h-6 w-6 text-green-500 self-center" />}
+                     {emailVerified && <CheckCircle className="h-6 w-6 text-green-500 self-center shrink-0" />}
                   </div>
                 </div>
 
@@ -145,12 +207,12 @@ export default function SignupPage() {
                 <Label htmlFor="mobile">Mobile Number</Label>
                 <div className="flex gap-2">
                     <Input id="mobile" type="tel" placeholder="9876543210" required value={mobile} onChange={(e) => setMobile(e.target.value)} disabled={mobileVerified}/>
-                    {!mobileVerified && (
+                    { !(mobileVerified) && (role === 'admin' || !emailVerified) && (
                        <Button type="button" onClick={() => handleSendOtp('mobile')} disabled={!isMobileValid || mobileOtpSent}>
                         {mobileOtpSent ? 'Sent' : 'Send OTP'}
                       </Button>
                     )}
-                    {mobileVerified && <CheckCircle className="h-6 w-6 text-green-500 self-center" />}
+                    {mobileVerified && <CheckCircle className="h-6 w-6 text-green-500 self-center shrink-0" />}
                 </div>
               </div>
 
@@ -158,20 +220,25 @@ export default function SignupPage() {
                     <div className="space-y-2">
                         <Label htmlFor="mobile-otp">Mobile OTP</Label>
                         <div className="flex gap-2">
-                            <Input id="mobile-otp" type="text" placeholder="Enter 6-digit OTP" value={mobileOtp} onChange={(e) => setMobileOtp(e.target.value)} maxLength={6} />
+                            <Input id="mobile-otp" type="text" placeholder="Enter 6-digit OTP" value={mobileOtp} onChange={(e) => setMobileOtp(e.targe.value)} maxLength={6} />
                             <Button type="button" onClick={() => handleVerifyOtp('mobile')}>Verify OTP</Button>
                         </div>
                     </div>
                 )}
 
+              <Separator />
+
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" required />
+                <Input id="password" type="password" required value={password} onChange={e => setPassword(e.target.value)} />
               </div>
                <div className="space-y-2">
                 <Label htmlFor="confirm-password">Confirm Password</Label>
-                <Input id="confirm-password" type="password" required />
-              </div>
+                <Input id="confirm-password" type="password" required value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
+                 {password && confirmPassword && password !== confirmPassword && (
+                    <p className="text-xs text-destructive">Passwords do not match.</p>
+                 )}
+               </div>
               <Button type="submit" className="w-full" disabled={!isSignupEnabled}>
                 {role === 'admin' ? 'Request Admin Account' : 'Create Account'}
               </Button>
