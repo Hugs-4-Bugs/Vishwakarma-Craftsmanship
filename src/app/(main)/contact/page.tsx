@@ -25,7 +25,7 @@ function WhatsAppIcon(props: React.SVGProps<SVGSVGElement>) {
 }
 
 export default function ContactPage() {
-    const address = "Geeta Ghat Colony, near Bijli Office, Fazalganj, Sasaram, Bihar — PIN: 821113";
+    const address = "Geeta Ghat Colony, near Bijli Office, next to petrol pump, Fazalganj, Sasaram, Bihar — PIN: 821113";
     const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
 
     return (
