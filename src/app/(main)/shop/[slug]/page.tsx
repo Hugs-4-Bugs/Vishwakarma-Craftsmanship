@@ -7,6 +7,7 @@ import { products, carpenters } from '@/lib/data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import type { Product } from '@/lib/types';
 import { notFound } from 'next/navigation';
+import { motion, useDragControls } from "framer-motion";
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -24,13 +25,23 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 
-import { CheckCircle, ShoppingCart, Share2, Heart, AlertTriangle, X, CameraOff } from 'lucide-react';
+import { CheckCircle, ShoppingCart, Share2, Heart, AlertTriangle, X, CameraOff, Move, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
 
 function ARViewerModal({ children, product }: { children: React.ReactNode, product: Product }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
+  const [scale, setScale] = useState(1);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [rotation, setRotation] = useState(0);
+  const controls = useDragControls();
   const { toast } = useToast();
+
+  const resetTransform = () => {
+    setScale(1);
+    setPosition({ x: 0, y: 0 });
+    setRotation(0);
+  }
 
   useEffect(() => {
     let stream: MediaStream | null = null;
@@ -57,8 +68,9 @@ function ARViewerModal({ children, product }: { children: React.ReactNode, produ
       }
     };
     
-    if(isDialogOpen && hasCameraPermission === null) {
-        getCameraPermission();
+    if(isDialogOpen) {
+      if(hasCameraPermission === null) getCameraPermission();
+      resetTransform();
     }
 
     return () => {
@@ -78,7 +90,7 @@ function ARViewerModal({ children, product }: { children: React.ReactNode, produ
         <DialogHeader className="p-6 pb-2">
           <DialogTitle>AR Preview</DialogTitle>
           <DialogDescription>
-            Visualize the <span className="font-semibold">{product.name}</span> in your own space.
+            Move, scale, and rotate the <span className="font-semibold">{product.name}</span> to see how it fits in your space.
           </DialogDescription>
         </DialogHeader>
         <div className="flex-1 relative overflow-hidden bg-background">
@@ -91,18 +103,38 @@ function ARViewerModal({ children, product }: { children: React.ReactNode, produ
             <video ref={videoRef} className={`w-full h-full object-cover transition-opacity ${hasCameraPermission ? 'opacity-100' : 'opacity-0'}`} autoPlay muted playsInline />
           </div>
 
-          {/* Placeholder for 3D model */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            {productPlaceholder && (
+          {/* Draggable & Scalable 3D model placeholder */}
+          {productPlaceholder && (
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center pointer-events-none"
+              drag
+              dragListener={false}
+              dragControls={controls}
+              dragConstraints={{ left: -300, right: 300, top: -200, bottom: 200 }}
+              dragElastic={0.2}
+              style={{ x: position.x, y: position.y, scale, rotate: rotation }}
+              animate={{ x: position.x, y: position.y, scale, rotate: rotation }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            >
               <Image
                 src={productPlaceholder.imageUrl}
                 alt={product.name}
                 width={300}
                 height={300}
-                className="w-1/2 h-auto object-contain pointer-events-auto opacity-80 drop-shadow-2xl"
+                className="w-auto h-auto max-w-[50%] max-h-[50%] object-contain pointer-events-none drop-shadow-2xl"
                 data-ai-hint={productPlaceholder.imageHint}
+                draggable={false}
               />
-            )}
+            </motion.div>
+          )}
+
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-background/50 backdrop-blur-md p-2 rounded-full shadow-lg">
+             <Button variant="ghost" size="icon" onPointerDown={(e) => controls.start(e)} className="cursor-grab active:cursor-grabbing touch-none"><Move className="h-5 w-5"/></Button>
+             <Separator orientation="vertical" className="h-6" />
+             <Button variant="ghost" size="icon" onClick={() => setScale(s => s * 1.1)}><ZoomIn className="h-5 w-5"/></Button>
+             <Button variant="ghost" size="icon" onClick={() => setScale(s => s * 0.9)}><ZoomOut className="h-5 w-5"/></Button>
+             <Separator orientation="vertical" className="h-6" />
+             <Button variant="ghost" size="icon" onClick={resetTransform}><RotateCcw className="h-5 w-5"/></Button>
           </div>
            
           {hasCameraPermission === false && (
@@ -158,7 +190,6 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
           {/* Product Gallery */}
           <div>
             <div className="group relative aspect-square bg-card rounded-lg flex items-center justify-center mb-4 shadow-lg overflow-hidden">
-                {/* This would be a 3D viewer component */}
                  <Image
                     src={imageUrl}
                     alt={product.name}
