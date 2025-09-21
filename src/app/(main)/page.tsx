@@ -83,7 +83,9 @@ function Hero() {
                   </Button>
                 </div>
             </div>
-             <div className="mb-4 w-full max-w-5xl mx-auto h-48 sm:h-56 md:h-64 flex items-center justify-center bg-black/40 backdrop-blur-md rounded-2xl border border-white/20 p-4 overflow-hidden">
+             <div 
+                className="mb-4 w-full max-w-5xl mx-auto h-48 sm:h-56 md:h-64 flex items-center justify-center bg-black/40 backdrop-blur-md rounded-2xl border border-white/20 p-4 overflow-hidden"
+             >
                 <motion.div 
                     className="flex gap-4"
                     animate={{ x: ['0%', '-100%'] }}
@@ -93,7 +95,7 @@ function Hero() {
                     {[...showcaseProducts, ...showcaseProducts].map(({ product, placeholder }, index) => (
                          <div key={`${product.id}-${index}`} className="flex-shrink-0 w-48 h-40">
                              <Link href={`/shop/${product.slug}`}>
-                                <Card className="h-full w-full overflow-hidden bg-white/10 transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                                <Card className="h-full w-full overflow-hidden bg-black/20 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-black/40">
                                     <CardContent className="relative flex h-full w-full items-center justify-center p-0">
                                     <Image
                                         src={placeholder.imageUrl}
