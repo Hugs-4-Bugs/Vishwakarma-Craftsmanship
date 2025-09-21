@@ -25,6 +25,9 @@ function WhatsAppIcon(props: React.SVGProps<SVGSVGElement>) {
 }
 
 export default function ContactPage() {
+    const address = "Geeta Ghat Colony, near Bijli Office, Fazalganj, Sasaram, Bihar — PIN: 821113";
+    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+
     return (
         <div className="bg-background">
             <div className="container mx-auto px-4 py-24 sm:py-32">
@@ -77,7 +80,9 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <h4 className="font-semibold">Our Address</h4>
-                                        <p className="text-sm text-secondary-foreground/80">Geeta Ghat Colony, near Bijli Office, Fazalganj, Sasaram, Bihar — PIN: 821113</p>
+                                        <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-secondary-foreground/80 hover:text-primary transition-colors">
+                                            {address}
+                                        </a>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-4">
@@ -112,21 +117,6 @@ export default function ContactPage() {
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div className="mt-16">
-                     <h2 className="font-headline text-3xl font-bold text-center mb-8">Our Location</h2>
-                     <div className="rounded-lg overflow-hidden shadow-xl border">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3615.176499423983!2d84.02013931500619!3d25.02804598397491!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398ab77a2e33a19b%3A0x4548a8f4b6d4945!2sFazalganj%2C%20Sasaram%2C%20Bihar%20821115!5e0!3m2!1sen!2sin!4v1683883653456!5m2!1sen!2sin"
-                            width="100%"
-                            height="450"
-                            style={{ border: 0 }}
-                            allowFullScreen={false}
-                            loading="lazy"
-                            referrerPolicy="no-referrer-when-downgrade"
-                        ></iframe>
-                     </div>
                 </div>
             </div>
         </div>
