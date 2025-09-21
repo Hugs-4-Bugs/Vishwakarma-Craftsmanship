@@ -108,12 +108,21 @@ export default function SignupPage() {
       });
       return;
     }
-    // Simulate API call for signup
+    
     console.log('Signing up user:', { name, email, mobile, role });
-    toast({
-      title: 'Signup Successful!',
-      description: 'You will be redirected to the login page shortly.',
-    });
+
+    if (role === 'admin') {
+        toast({
+            title: 'Registration completed.',
+            description: 'Wait for admin approval.',
+        });
+    } else {
+        toast({
+            title: 'Registration Successful!',
+            description: 'You will be redirected to the login page shortly.',
+        });
+    }
+
     setTimeout(() => {
       router.push('/auth/login');
     }, 2000);

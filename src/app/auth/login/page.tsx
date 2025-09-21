@@ -33,7 +33,6 @@ export default function LoginPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Basic validation
     if (!email || !password) {
       toast({
         variant: 'destructive',
@@ -42,13 +41,11 @@ export default function LoginPage() {
       });
       return;
     }
-    // Simulate API call for login
     console.log('Logging in with:', { email, password });
     toast({
       title: 'Login Successful!',
-      description: 'Redirecting you to the homepage.',
+      description: 'You are logged in successfully. Redirecting...',
     });
-    // Redirect to home page on successful login
     setTimeout(() => {
       router.push('/');
     }, 1500);
@@ -90,6 +87,7 @@ export default function LoginPage() {
                   id="password"
                   type="password"
                   required
+                  placeholder="********"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
