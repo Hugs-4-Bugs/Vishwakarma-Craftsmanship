@@ -1,8 +1,9 @@
 
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -29,6 +30,7 @@ const TEMP_OTP = '123456';
 
 export default function SignupPage() {
   const { toast } = useToast();
+  const router = useRouter();
   const [role, setRole] = useState('customer');
   
   const [name, setName] = useState('');
@@ -96,6 +98,27 @@ export default function SignupPage() {
     }
   }, [role, emailVerified, mobileVerified, password, confirmPassword, name, email, mobile]);
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isSignupEnabled) {
+      toast({
+        variant: 'destructive',
+        title: 'Signup Failed',
+        description: 'Please complete all required fields and verification steps.',
+      });
+      return;
+    }
+    // Simulate API call for signup
+    console.log('Signing up user:', { name, email, mobile, role });
+    toast({
+      title: 'Signup Successful!',
+      description: 'You will be redirected to the login page shortly.',
+    });
+    setTimeout(() => {
+      router.push('/auth/login');
+    }, 2000);
+  };
+
   const getValidationRequirementText = () => {
     if (role === 'admin') {
       return "To sign up as an admin, you must verify both your email and mobile number.";
@@ -131,7 +154,7 @@ export default function SignupPage() {
             <CardDescription>Join us to get personalized recommendations and faster checkout.</CardDescription>
           </CardHeader>
           <CardContent>
-            <form className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
                <div className="space-y-3">
                 <Label>I am signing up as a...</Label>
                 <RadioGroup defaultValue="customer" value={role} onValueChange={setRole} className="grid grid-cols-2 gap-4">
@@ -269,7 +292,3 @@ export default function SignupPage() {
     </div>
   );
 }
-
-
-
-    

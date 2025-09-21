@@ -1,7 +1,9 @@
 
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -9,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ArrowLeft } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 function GoogleIcon(props: React.SVGProps<SVGSVGElement>) {
     return (
@@ -23,6 +26,34 @@ function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
 }
 
 export default function LoginPage() {
+  const router = useRouter();
+  const { toast } = useToast();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Basic validation
+    if (!email || !password) {
+      toast({
+        variant: 'destructive',
+        title: 'Login Failed',
+        description: 'Please enter both email/mobile and password.',
+      });
+      return;
+    }
+    // Simulate API call for login
+    console.log('Logging in with:', { email, password });
+    toast({
+      title: 'Login Successful!',
+      description: 'Redirecting you to the homepage.',
+    });
+    // Redirect to home page on successful login
+    setTimeout(() => {
+      router.push('/');
+    }, 1500);
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="w-full max-w-md">
@@ -36,10 +67,17 @@ export default function LoginPage() {
             <CardDescription>Log in to access your account and orders.</CardDescription>
           </CardHeader>
           <CardContent>
-            <form className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email or Mobile Number</Label>
-                <Input id="email" type="text" placeholder="you@example.com or 9876543210" required />
+                <Input
+                  id="email"
+                  type="text"
+                  placeholder="you@example.com or 9876543210"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
@@ -48,7 +86,13 @@ export default function LoginPage() {
                         Forgot password?
                     </Link>
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </div>
               <div className="flex items-center space-x-2">
                 <Checkbox id="keep-logged-in" />
