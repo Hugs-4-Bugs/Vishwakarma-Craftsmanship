@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { products, carpenters } from '@/lib/data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import type { Product } from '@/lib/types';
+import { notFound } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -108,14 +109,26 @@ function ARViewerModal({ children }: { children: React.ReactNode }) {
 
 
 export default function ProductDetailPage({ params }: { params: { slug: string } }) {
-  const [product, setProduct] = useState<Product | null>(null);
+    const [product, setProduct] = useState<Product | undefined>(undefined);
 
-  useEffect(() => {
-    const foundProduct = products.find(p => p.slug === params.slug);
-    setProduct(foundProduct || null);
-  }, [params.slug]);
+    useEffect(() => {
+        const foundProduct = products.find(p => p.slug === params.slug);
+        if (!foundProduct) {
+            // Using a timeout to avoid immediate notFound call during render
+            // This is a common pattern for client components that need to handle not found cases
+            const timer = setTimeout(() => {
+                if (!products.find(p => p.slug === params.slug)) {
+                   // notFound(); This causes issues in some Next.js versions with client components
+                   // For now, we will just show a message.
+                }
+            }, 0);
+            return () => clearTimeout(timer);
+        }
+        setProduct(foundProduct);
+    }, [params.slug]);
 
-  if (!product) {
+
+  if (product === undefined) {
     return (
       <div className="container mx-auto px-4 py-48 text-center">
         <h1 className="text-3xl font-bold">Product not found</h1>
