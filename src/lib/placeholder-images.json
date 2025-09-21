@@ -1,3 +1,118 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "prod-1",
+      "description": "A luxurious royal oak sofa in a well-lit living room.",
+      "imageUrl": "https://picsum.photos/seed/prod1/600/400",
+      "imageHint": "luxury sofa"
+    },
+    {
+      "id": "prod-2",
+      "description": "A modernist bed with a sleek frame in a minimalist bedroom.",
+      "imageUrl": "https://picsum.photos/seed/prod2/600/400",
+      "imageHint": "modern bed"
+    },
+    {
+      "id": "prod-3",
+      "description": "A grand dining table made of mahogany, set for a formal dinner.",
+      "imageUrl": "https://picsum.photos/seed/prod3/600/400",
+      "imageHint": "dining table"
+    },
+    {
+      "id": "prod-4",
+      "description": "A handcrafted artisan coffee table with detailed carvings.",
+      "imageUrl": "https://picsum.photos/seed/prod4/600/400",
+      "imageHint": "coffee table"
+    },
+    {
+      "id": "prod-5",
+      "description": "An ergonomic office chair designed for comfort.",
+      "imageUrl": "https://picsum.photos/seed/prod5/600/400",
+      "imageHint": "office chair"
+    },
+    {
+      "id": "prod-6",
+      "description": "An elegant, classic heirloom wardrobe in a bedroom.",
+      "imageUrl": "https://picsum.photos/seed/prod6/600/400",
+      "imageHint": "classic wardrobe"
+    },
+    {
+      "id": "prod-7",
+      "description": "An ultra-luxurious premium sofa with velvet upholstery.",
+      "imageUrl": "https://picsum.photos/seed/prod7/600/400",
+      "imageHint": "premium sofa"
+    },
+    {
+      "id": "prod-8",
+      "description": "A compact and affordable study table in a small room.",
+      "imageUrl": "https://picsum.photos/seed/prod8/600/400",
+      "imageHint": "study table"
+    },
+    {
+      "id": "prod-9",
+      "description": "A plush velvet armchair in a cozy corner.",
+      "imageUrl": "https://picsum.photos/seed/prod9/600/400",
+      "imageHint": "velvet armchair"
+    },
+    {
+      "id": "prod-10",
+      "description": "A king-sized bed with a rustic wooden frame.",
+      "imageUrl": "https://picsum.photos/seed/prod10/600/400",
+      "imageHint": "rustic bed"
+    },
+    {
+      "id": "carpenter-1",
+      "description": "Portrait of a skilled male carpenter.",
+      "imageUrl": "https://picsum.photos/seed/carp1/400/400",
+      "imageHint": "carpenter portrait"
+    },
+    {
+      "id": "carpenter-2",
+      "description": "Portrait of an experienced male carpenter.",
+      "imageUrl": "https://picsum.photos/seed/carp2/400/400",
+      "imageHint": "experienced carpenter"
+    },
+    {
+      "id": "carpenter-3",
+      "description": "Portrait of a young male carpenter.",
+      "imageUrl": "https://picsum.photos/seed/carp3/400/400",
+      "imageHint": "young carpenter"
+    },
+    {
+      "id": "carpenter-4",
+      "description": "Portrait of a skilled female carpenter.",
+      "imageUrl": "https://picsum.photos/seed/carp4/400/400",
+      "imageHint": "female carpenter"
+    },
+    {
+      "id": "blog-1",
+      "description": "Various types of wood stacked together.",
+      "imageUrl": "https://picsum.photos/seed/blog1/600/400",
+      "imageHint": "wood textures"
+    },
+    {
+      "id": "blog-2",
+      "description": "A stylishly decorated modern living room.",
+      "imageUrl": "https://picsum.photos/seed/blog2/600/400",
+      "imageHint": "interior design"
+    },
+    {
+      "id": "blog-3",
+      "description": "Close up of a hand polishing a piece of luxury wooden furniture.",
+      "imageUrl": "https://picsum.photos/seed/blog3/600/400",
+      "imageHint": "furniture care"
+    },
+    {
+      "id": "hero-bg",
+      "description": "Abstract blurred background with warm tones.",
+      "imageUrl": "https://picsum.photos/seed/herobg/1920/1080",
+      "imageHint": "abstract background"
+    },
+    {
+      "id": "about-team",
+      "description": "A diverse team of professionals in a modern office.",
+      "imageUrl": "https://picsum.photos/seed/about/1200/800",
+      "imageHint": "professional team"
+    }
+  ]
 }
