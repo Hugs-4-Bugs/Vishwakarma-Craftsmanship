@@ -66,12 +66,6 @@
   }
   body {
     @apply bg-background text-foreground;
-    /* Hide the default cursor for a custom cursor experience */
-    cursor: none;
-  }
-  /* Ensure interactive elements also hide default cursor */
-  a, button {
-    cursor: none;
   }
 }
 
