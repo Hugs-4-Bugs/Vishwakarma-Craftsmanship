@@ -16,6 +16,19 @@ Welcome to the Vishwakarma 3D Showroom, a modern, feature-rich e-commerce platfo
 - **Responsive Design**: A beautiful and consistent UI across all devices, from mobile phones to desktops.
 - **Theming**: Supports both light and dark modes.
 
+---
+
+## In-Depth Documentation
+
+For detailed information on the project's architecture, API requirements, and modification guides, please refer to the documents in the `/src/app/docs/` directory:
+
+- **[Comprehensive Project Overview](./src/app/docs/COMPREHENSIVE_PROJECT_OVERVIEW.md)**: High-level system architecture, business flows, and user roles.
+- **[Backend API Requirements Guide](./src/app/docs/BACKEND_API_REQUIREMENTS_GUIDE.md)**: A complete guide for building the Java Spring Boot backend, including API endpoints, data models, and integration instructions.
+- **[Frontend Modification Guide](./src/app/docs/PROJECT_STRUCTURE_AND_MODIFICATION_GUIDE.md)**: A map of frontend features to the corresponding files in the codebase.
+- **[Environment Setup Guide](./src/app/docs/FIREBASE_VERCEL_ENV_SETUP_GUIDE.md)**: Instructions for setting up environment variables for local development and Vercel deployment.
+
+---
+
 ## Tech Stack
 
 This project is built with a modern, type-safe, and performant technology stack:
@@ -38,36 +51,14 @@ The project follows a standard Next.js App Router structure. Key directories are
 ├── src/
 │   ├── app/                # Main application folder (App Router)
 │   │   ├── (main)/         # Main layout group for pages with header/footer
-│   │   │   ├── about/
-│   │   │   ├── blog/
-│   │   │   ├── carpenters/
-│   │   │   ├── contact/
-│   │   │   ├── custom-builder/
-│   │   │   ├── profile/
-│   │   │   ├── shop/
-│   │   │   ├── style-quiz/
-│   │   │   ├── layout.tsx    # Main layout with header and footer
-│   │   │   └── page.tsx      # Homepage
 │   │   ├── auth/           # Auth layout group for login/signup
-│   │   │   ├── forgot-password/
-│   │   │   ├── login/
-│   │   │   └── signup/
+│   │   ├── docs/           # Detailed project documentation
 │   │   ├── globals.css     # Global styles and ShadCN theme variables
 │   │   └── layout.tsx      # Root layout of the application
 │   ├── ai/                 # Genkit AI flows and configuration
-│   │   ├── flows/          # AI logic for features like the style quiz
-│   │   └── genkit.ts       # Genkit initialization
 │   ├── components/         # Reusable React components
-│   │   ├── icons/
-│   │   ├── layout/         # Header, Footer, etc.
-│   │   ├── shared/         # Cards, Modals, etc. shared across pages
-│   │   └── ui/             # ShadCN UI components (Button, Card, etc.)
-│   ├── hooks/              # Custom React hooks (e.g., use-toast)
-│   └── lib/                # Library files, utilities, and data
-│       ├── data.ts         # Static data for products, carpenters, etc.
-│       ├── placeholder-images.ts # Image data
-│       ├── types.ts        # TypeScript type definitions
-│       └── utils.ts        # Utility functions (e.g., cn for classnames)
+│   ├── hooks/              # Custom React hooks
+│   └── lib/                # Library files, utilities, and mock data
 ├── next.config.ts          # Next.js configuration
 ├── tailwind.config.ts      # Tailwind CSS configuration
 └── tsconfig.json           # TypeScript configuration
@@ -102,3 +93,4 @@ npm run dev
 ```
 
 Open [http://localhost:9002](http://localhost:9002) with your browser to see the result.
+```
