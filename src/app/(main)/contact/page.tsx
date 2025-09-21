@@ -5,6 +5,25 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { MapPin, Phone, Mail } from "lucide-react";
 
+function WhatsAppIcon(props: React.SVGProps<SVGSVGElement>) {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            {...props}
+        >
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+        </svg>
+    );
+}
+
 export default function ContactPage() {
     return (
         <div className="bg-background">
@@ -79,9 +98,35 @@ export default function ContactPage() {
                                         <p className="text-sm text-secondary-foreground/80">support@vishwakarma.com</p>
                                     </div>
                                 </div>
+                                 <div className="flex items-start gap-4">
+                                    <div className="bg-primary text-primary-foreground p-3 rounded-full">
+                                        <WhatsAppIcon className="h-5 w-5" />
+                                    </div>
+                                    <div>
+                                        <h4 className="font-semibold">WhatsApp</h4>
+                                         <a href="https://wa.me/917250063206" target="_blank" rel="noopener noreferrer" className="text-sm text-secondary-foreground/80 hover:text-primary transition-colors">
+                                            +91 7250063206
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div className="mt-16">
+                     <h2 className="font-headline text-3xl font-bold text-center mb-8">Our Location</h2>
+                     <div className="rounded-lg overflow-hidden shadow-xl border">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3615.176499423983!2d84.02013931500619!3d25.02804598397491!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398ab77a2e33a19b%3A0x4548a8f4b6d4945!2sFazalganj%2C%20Sasaram%2C%20Bihar%20821115!5e0!3m2!1sen!2sin!4v1683883653456!5m2!1sen!2sin"
+                            width="100%"
+                            height="450"
+                            style={{ border: 0 }}
+                            allowFullScreen={false}
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                        ></iframe>
+                     </div>
                 </div>
             </div>
         </div>
