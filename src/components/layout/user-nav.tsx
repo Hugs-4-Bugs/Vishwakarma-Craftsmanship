@@ -30,12 +30,14 @@ export function UserNav({ user }: { user: User }) {
 
   const handleLogout = () => {
     localStorage.removeItem('user');
+    // We don't need a full reload if the header state updates correctly
     router.push('/');
-    // A full page reload might be better to ensure all state is cleared
-    window.location.reload();
+    // Use a slight delay to allow the router to push, then reload to clear all states
+    setTimeout(() => window.location.reload(), 100);
   };
 
   const getInitials = (name: string) => {
+    if (!name) return '';
     const names = name.split(' ');
     if (names.length > 1) {
       return `${names[0][0]}${names[names.length - 1][0]}`;

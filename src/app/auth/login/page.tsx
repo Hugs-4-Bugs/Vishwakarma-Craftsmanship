@@ -41,20 +41,29 @@ export default function LoginPage() {
       });
       return;
     }
-    // Simulate successful login
-    console.log('Logging in with:', { email, password });
-    
-    // Store mock user data in localStorage
-    localStorage.setItem('user', JSON.stringify({ name: 'Test User', email: email }));
-    
-    toast({
-      title: 'Login Successful!',
-      description: 'You are being redirected to the homepage.',
-    });
-    
-    setTimeout(() => {
-      router.push('/');
-    }, 1500);
+    // Simulate successful login by checking localStorage for a matching user
+    const storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+    const user = storedUsers.find((u: any) => u.email === email && u.password === password);
+
+    if (user) {
+      localStorage.setItem('user', JSON.stringify({ name: user.name, email: user.email }));
+      
+      toast({
+        title: 'Login Successful!',
+        description: 'You are being redirected to the homepage.',
+      });
+      
+      setTimeout(() => {
+        router.push('/');
+      }, 1500);
+
+    } else {
+        toast({
+            variant: 'destructive',
+            title: 'Login Failed',
+            description: 'Invalid credentials. Please try again.',
+        });
+    }
   };
 
   return (

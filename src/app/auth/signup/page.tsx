@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { ArrowLeft, CheckCircle, Info } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Info, Check, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
@@ -27,6 +27,13 @@ function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
 }
 
 const TEMP_OTP = '123456';
+
+const PasswordRequirement = ({ meets, text }: { meets: boolean, text: string }) => (
+    <div className={`flex items-center text-xs ${meets ? 'text-green-600' : 'text-destructive'}`}>
+        {meets ? <Check className="h-3 w-3 mr-1" /> : <X className="h-3 w-3 mr-1" />}
+        {text}
+    </div>
+);
 
 export default function SignupPage() {
   const { toast } = useToast();
@@ -51,7 +58,15 @@ export default function SignupPage() {
 
   const isEmailValid = useMemo(() => /^\S+@\S+\.\S+$/.test(email), [email]);
   const isMobileValid = useMemo(() => /^\d{10}$/.test(mobile), [mobile]);
-  
+
+  // Password validation checks
+  const passValidation = {
+      length: password.length >= 8,
+      uppercase: /[A-Z]/.test(password),
+      number: /[0-9]/.test(password),
+      special: /[!@#$%^&*]/.test(password),
+  };
+
   const handleSendOtp = (type: 'email' | 'mobile') => {
     // In a real app, this would call an API to send an OTP
     console.log(`Sending OTP to ${type}: ${TEMP_OTP}`);
@@ -83,11 +98,12 @@ export default function SignupPage() {
   };
 
   const isSignupEnabled = useMemo(() => {
+    const isPasswordValid = Object.values(passValidation).every(Boolean);
     const arePasswordsMatching = password && password === confirmPassword;
     const isNameFilled = name.trim() !== '';
     const areContactDetailsFilled = email.trim() !== '' && mobile.trim() !== '';
 
-    if (!isNameFilled || !arePasswordsMatching || !areContactDetailsFilled) {
+    if (!isNameFilled || !isPasswordValid || !arePasswordsMatching || !areContactDetailsFilled) {
       return false;
     }
 
@@ -96,7 +112,7 @@ export default function SignupPage() {
     } else { // customer
       return emailVerified || mobileVerified;
     }
-  }, [role, emailVerified, mobileVerified, password, confirmPassword, name, email, mobile]);
+  }, [role, emailVerified, mobileVerified, password, confirmPassword, name, email, mobile, passValidation]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -109,7 +125,13 @@ export default function SignupPage() {
       return;
     }
     
-    console.log('Signing up user:', { name, email, mobile, role });
+    // In a real app, you'd hash the password before saving
+    const newUser = { name, email, mobile, role, password };
+    console.log('Signing up user:', newUser);
+
+    // Store user data in localStorage for login simulation
+    const storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+    localStorage.setItem('registeredUsers', JSON.stringify([...storedUsers, newUser]));
 
     if (role === 'admin') {
         toast({
@@ -263,6 +285,12 @@ export default function SignupPage() {
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <Input id="password" type="password" required value={password} onChange={e => setPassword(e.target.value)} />
+                <div className="grid grid-cols-2 gap-x-4 gap-y-1 p-2 rounded-md bg-muted/50 border border-border/60">
+                    <PasswordRequirement meets={passValidation.length} text="At least 8 characters" />
+                    <PasswordRequirement meets={passValidation.uppercase} text="One uppercase letter" />
+                    <PasswordRequirement meets={passValidation.number} text="One number" />
+                    <PasswordRequirement meets={passValidation.special} text="One special character" />
+                </div>
               </div>
                <div className="space-y-2">
                 <Label htmlFor="confirm-password">Confirm Password</Label>
