@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -65,5 +66,38 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  #liquid-cursor {
+    @apply pointer-events-none fixed top-0 left-0 -translate-x-1/2 -translate-y-1/2 z-[9999] rounded-full;
+    width: 20px;
+    height: 20px;
+    background-color: hsl(var(--primary));
+    transform: translate3d(var(--x), var(--y), 0);
+    transition: width 0.3s ease, height 0.3s ease;
+    transform-origin: center center;
+    --scale: 1;
+    --rotation: 0deg;
+  }
+
+  #liquid-cursor::after {
+    @apply content-[''] absolute inset-0 rounded-full transition-transform duration-300 ease-out;
+    background-color: hsl(var(--primary));
+    transform: scale(var(--scale)) rotate(var(--rotation));
+  }
+
+  #liquid-cursor.grow {
+    width: 80px;
+    height: 80px;
+  }
+  
+  #liquid-cursor-text {
+      @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-primary-foreground font-bold uppercase text-xs tracking-widest opacity-0 transition-opacity duration-300;
+  }
+  
+  #liquid-cursor.text-visible #liquid-cursor-text {
+      @apply opacity-100;
   }
 }

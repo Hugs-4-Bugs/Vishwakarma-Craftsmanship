@@ -1,3 +1,6 @@
+
+'use client';
+
 import Link from 'next/link';
 import { products, categories, carpenters } from '@/lib/data';
 import { ProductCard } from '@/components/shared/product-card';
@@ -7,41 +10,69 @@ import { CarpenterCard } from '@/components/shared/carpenter-card';
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
+import { useLiquidCursor } from '@/hooks/use-liquid-cursor';
 
-function AnimatedHero() {
+function Hero() {
+  const targetRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ['start start', 'end start'],
+  });
+
+  const yBg = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
+  const opacityHero = useTransform(scrollYProgress, [0, 0.8, 1], [1, 0.5, 0]);
+
+  const bgImage = PlaceHolderImages.find(p => p.id === 'hero-bg');
+  
+  useLiquidCursor();
+
   return (
-    <div className="relative pt-20">
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent z-10" />
-      <Image 
-        src={PlaceHolderImages.find(p => p.id === 'hero-bg')?.imageUrl ?? ''}
-        alt="Abstract background"
-        fill
-        className="object-cover"
-        quality={80}
-        priority
-        data-ai-hint="wood textures carpentry"
-      />
-      <div className="container mx-auto px-4 relative z-20">
-        <div className="min-h-[80vh] md:min-h-[90vh] flex flex-col justify-center items-center text-center">
-            <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-primary-foreground bg-primary/70 p-4 md:p-6 rounded-lg shadow-xl">
+    <div ref={targetRef} className="relative h-[120vh] -mt-20">
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
+        <motion.div className="absolute inset-0 z-0" style={{ y: yBg }}>
+          {bgImage && (
+            <Image
+              src={bgImage.imageUrl}
+              alt="Carpentry background"
+              fill
+              className="object-cover"
+              quality={90}
+              priority
+              data-ai-hint={bgImage.imageHint}
+            />
+          )}
+          <div className="absolute inset-0 bg-black/40" />
+        </motion.div>
+
+        <motion.div
+          className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white"
+          style={{ opacity: opacityHero }}
+        >
+          <div className="container mx-auto px-4">
+            <h1 className="font-headline text-4xl font-bold tracking-tight text-white md:text-6xl lg:text-7xl">
               Style Your Home with
             </h1>
-            <h2 className="font-headline text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight mt-4 text-foreground">
+            <h2 className="font-headline mt-4 text-5xl font-bold tracking-tight text-primary md:text-7xl lg:text-8xl">
               Vishwakarma Craftsmanship
             </h2>
-
-            <p className="mt-8 max-w-2xl text-lg md:text-xl text-foreground/80">
+            <p className="mx-auto mt-8 max-w-3xl text-lg text-white/80 md:text-xl">
               Discover exquisitely crafted furniture that brings elegance, comfort, and personality to your living space.
             </p>
-            <div className="mt-10 flex gap-4">
-              <Button asChild size="lg" className="font-bold">
+            <div className="mt-10 flex flex-wrap justify-center gap-4">
+              <Button asChild size="lg" className="font-bold" data-cursor-size="80" data-cursor-text="Shop">
                 <Link href="/shop">Shop Ready-Made</Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="font-bold">
+              <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-black font-bold" data-cursor-size="80" data-cursor-text="Build">
                 <Link href="/custom-builder">Build Custom Furniture</Link>
               </Button>
             </div>
-        </div>
+             <div className="mt-16 w-full max-w-4xl h-64 flex items-center justify-center bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
+                <p className="text-2xl font-bold text-white/80">[3D Furniture Showcase Coming Soon]</p>
+             </div>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
@@ -70,8 +101,8 @@ export default function HomePage() {
   const featuredProducts = products.slice(0, 4);
 
   return (
-    <div>
-      <AnimatedHero />
+    <div className="bg-background">
+      <Hero />
 
       <Section>
         <SectionTitle subtitle="Handpicked for you, these pieces represent the pinnacle of our craftsmanship and design.">
@@ -98,7 +129,6 @@ export default function HomePage() {
             <Link key={category.slug} href={`/shop?category=${category.slug}`}>
               <Card className="h-full text-center group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:bg-card">
                 <CardContent className="p-6 flex flex-col items-center justify-center">
-                  {/* Placeholder for icon */}
                   <div className="p-3 bg-primary/10 rounded-full mb-3">
                     <Users className="h-6 w-6 text-primary" />
                   </div>
