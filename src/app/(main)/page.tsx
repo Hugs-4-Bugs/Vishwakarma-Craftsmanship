@@ -13,7 +13,8 @@ import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import type { Product } from '@/lib/types';
+
 
 function Hero() {
   const targetRef = useRef<HTMLDivElement>(null);
@@ -27,9 +28,15 @@ function Hero() {
 
   const bgImage = PlaceHolderImages.find(p => p.id === 'hero-bg');
   
-  const showcaseImages = [
+  const showcaseImageIds = [
     'sofa-1', 'beds-1', 'tables-1', 'chairs-1', 'wardrobes-1', 'dining-1', 'sofa-2', 'beds-2'
-  ].map(id => PlaceHolderImages.find(p => p.id === id)).filter(Boolean) as (typeof PlaceHolderImages[0])[];
+  ];
+  
+  const showcaseProducts = showcaseImageIds.map(id => {
+      const product = products.find(p => p.image === id);
+      const placeholder = PlaceHolderImages.find(p => p.id === id);
+      return { product, placeholder };
+  }).filter(item => item.product && item.placeholder) as { product: Product, placeholder: typeof PlaceHolderImages[0] }[];
 
 
   return (
@@ -79,24 +86,27 @@ function Hero() {
              <div className="mb-4 w-full max-w-5xl mx-auto h-48 sm:h-56 md:h-64 flex items-center justify-center bg-black/40 backdrop-blur-md rounded-2xl border border-white/20 p-4 overflow-hidden">
                 <motion.div 
                     className="flex gap-4"
-                    animate={{ x: '-100%' }}
+                    animate={{ x: ['0%', '-100%'] }}
                     transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+                    whileHover={{ animationPlayState: 'paused' }}
                 >
-                    {[...showcaseImages, ...showcaseImages].map((image, index) => (
-                         <div key={index} className="flex-shrink-0 w-48 h-40">
-                             <Card className="h-full w-full overflow-hidden bg-white/10">
-                                <CardContent className="relative flex h-full w-full items-center justify-center p-0">
-                                <Image
-                                    src={image.imageUrl}
-                                    alt={image.imageHint}
-                                    width={300}
-                                    height={200}
-                                    className="object-contain h-auto w-full transition-transform duration-300 hover:scale-105"
-                                    data-ai-hint={image.imageHint}
-                                    data-cursor-interactive
-                                />
-                                </CardContent>
-                            </Card>
+                    {[...showcaseProducts, ...showcaseProducts].map(({ product, placeholder }, index) => (
+                         <div key={`${product.id}-${index}`} className="flex-shrink-0 w-48 h-40">
+                             <Link href={`/shop/${product.slug}`}>
+                                <Card className="h-full w-full overflow-hidden bg-white/10 transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                                    <CardContent className="relative flex h-full w-full items-center justify-center p-0">
+                                    <Image
+                                        src={placeholder.imageUrl}
+                                        alt={placeholder.imageHint}
+                                        width={300}
+                                        height={200}
+                                        className="object-contain h-auto w-full"
+                                        data-ai-hint={placeholder.imageHint}
+                                        data-cursor-interactive
+                                    />
+                                    </CardContent>
+                                </Card>
+                            </Link>
                          </div>
                     ))}
                 </motion.div>
