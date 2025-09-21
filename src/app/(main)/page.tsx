@@ -53,28 +53,28 @@ function Hero() {
         </motion.div>
 
         <motion.div
-          className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white"
+          className="relative z-20 flex h-full flex-col items-center justify-center text-center text-white"
           style={{ opacity: opacityHero }}
         >
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-4 pt-20">
             <h1 className="font-headline text-4xl font-bold tracking-tight text-white md:text-6xl lg:text-7xl">
               Style Your Home with
             </h1>
-            <h2 className="font-headline mt-4 text-5xl font-bold tracking-tight text-primary md:text-7xl lg:text-8xl">
+            <h2 className="font-headline mt-2 text-5xl font-bold tracking-tight text-primary md:text-7xl lg:text-8xl">
               Vishwakarma Craftsmanship
             </h2>
-            <p className="mx-auto mt-8 max-w-3xl text-lg text-white/80 md:text-xl">
+            <p className="mx-auto mt-6 max-w-3xl text-base text-white/80 md:text-xl">
               Discover exquisitely crafted furniture that brings elegance, comfort, and personality to your living space.
             </p>
-            <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <Button asChild size="lg" className="font-bold" data-cursor-size="80" data-cursor-text="Shop">
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Button asChild size="lg" className="font-bold w-full sm:w-auto" data-cursor-size="80" data-cursor-text="Shop">
                 <Link href="/shop">Shop Ready-Made</Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-black font-bold" data-cursor-size="80" data-cursor-text="Build">
+              <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-black font-bold w-full sm:w-auto" data-cursor-size="80" data-cursor-text="Build">
                 <Link href="/custom-builder">Build Custom Furniture</Link>
               </Button>
             </div>
-             <div className="mt-16 w-full max-w-4xl h-64 flex items-center justify-center bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-4">
+             <div className="mt-12 w-full max-w-4xl h-56 md:h-64 flex items-center justify-center bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-4">
                 <Carousel
                   opts={{
                     align: "start",

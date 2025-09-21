@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -24,6 +25,8 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
 
+  const isHomePage = pathname === '/';
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -36,13 +39,24 @@ export function Header() {
     setIsMenuOpen(false);
   }, [pathname]);
 
+  const headerClasses = cn(
+    'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+    isScrolled || !isHomePage
+      ? 'bg-background/80 shadow-md backdrop-blur-sm'
+      : 'bg-transparent'
+  );
+
+  const linkClasses = (href: string) => cn(
+    'text-sm font-medium transition-colors hover:text-primary',
+    pathname === href ? 'text-primary' : (isScrolled || !isHomePage) ? 'text-foreground/80' : 'text-white/80 hover:text-white',
+  );
+
+  const iconButtonClasses = cn(
+    (isScrolled || !isHomePage) ? '' : 'text-white hover:text-white hover:bg-white/10'
+  );
+
   return (
-    <header
-      className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        isScrolled ? 'bg-background/80 shadow-md backdrop-blur-sm' : 'bg-transparent'
-      )}
-    >
+    <header className={headerClasses}>
       <div className="container mx-auto px-4">
         <div className="flex h-20 items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
@@ -54,10 +68,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={cn(
-                  'text-sm font-medium transition-colors hover:text-primary',
-                  pathname === link.href ? 'text-primary' : isScrolled ? 'text-foreground/80' : 'text-white/80 hover:text-white',
-                )}
+                className={linkClasses(link.href)}
               >
                 {link.label}
               </Link>
@@ -65,7 +76,7 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className={cn(isScrolled ? '' : 'text-white hover:text-white hover:bg-white/10')}>
+            <Button variant="ghost" size="icon" className={iconButtonClasses}>
               <ShoppingCart className="h-5 w-5" />
               <span className="sr-only">Cart</span>
             </Button>
@@ -75,7 +86,7 @@ export function Header() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className={cn(isScrolled ? '' : 'text-white hover:text-white hover:bg-white/10')}
+                className={iconButtonClasses}
               >
                 {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                 <span className="sr-only">Toggle menu</span>
