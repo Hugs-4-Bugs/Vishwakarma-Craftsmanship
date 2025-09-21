@@ -25,7 +25,7 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 
-import { CheckCircle, ShoppingCart, Share2, Heart, AlertTriangle, X, CameraOff, Move, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
+import { CheckCircle, ShoppingCart, Share2, Heart, AlertTriangle, X, CameraOff, Move, ZoomIn, ZoomOut, RotateCcw, RotateCw } from 'lucide-react';
 
 function ARViewerModal({ children, product }: { children: React.ReactNode, product: Product }) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -44,6 +44,8 @@ function ARViewerModal({ children, product }: { children: React.ReactNode, produ
   }
 
   useEffect(() => {
+    if (!isDialogOpen) return;
+
     let stream: MediaStream | null = null;
     const getCameraPermission = async () => {
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -65,21 +67,27 @@ function ARViewerModal({ children, product }: { children: React.ReactNode, produ
       } catch (error) {
         console.error('Error accessing camera:', error);
         setHasCameraPermission(false);
+        toast({
+          variant: "destructive",
+          title: "Camera Access Denied",
+          description: "Please enable camera permissions in your browser settings.",
+        });
       }
     };
     
-    if(isDialogOpen) {
-      if(hasCameraPermission === null) getCameraPermission();
-      resetTransform();
-    }
+    getCameraPermission();
+    resetTransform();
 
     return () => {
-      // Stop the camera stream when the component unmounts or dialog closes
+      // Stop the camera stream when the dialog closes
       if (stream) {
         stream.getTracks().forEach(track => track.stop());
       }
+      if (videoRef.current) {
+        videoRef.current.srcObject = null;
+      }
     };
-  }, [isDialogOpen, hasCameraPermission, toast]);
+  }, [isDialogOpen, toast]);
 
   const productPlaceholder = PlaceHolderImages.find(p => p.id === product.image);
 
@@ -104,7 +112,7 @@ function ARViewerModal({ children, product }: { children: React.ReactNode, produ
           </div>
 
           {/* Draggable & Scalable 3D model placeholder */}
-          {productPlaceholder && (
+          {productPlaceholder && hasCameraPermission && (
             <motion.div
               className="absolute inset-0 flex items-center justify-center pointer-events-none"
               drag
@@ -134,16 +142,19 @@ function ARViewerModal({ children, product }: { children: React.ReactNode, produ
              <Button variant="ghost" size="icon" onClick={() => setScale(s => s * 1.1)}><ZoomIn className="h-5 w-5"/></Button>
              <Button variant="ghost" size="icon" onClick={() => setScale(s => s * 0.9)}><ZoomOut className="h-5 w-5"/></Button>
              <Separator orientation="vertical" className="h-6" />
-             <Button variant="ghost" size="icon" onClick={resetTransform}><RotateCcw className="h-5 w-5"/></Button>
+             <Button variant="ghost" size="icon" onClick={() => setRotation(r => r - 30)}><RotateCcw className="h-5 w-5"/></Button>
+             <Button variant="ghost" size="icon" onClick={() => setRotation(r => r + 30)}><RotateCw className="h-5 w-5"/></Button>
+             <Separator orientation="vertical" className="h-6" />
+             <Button variant="ghost" size="icon" onClick={resetTransform}><X className="h-5 w-5"/></Button>
           </div>
            
           {hasCameraPermission === false && (
-            <div className="absolute inset-0 bg-black/80 flex items-center justify-center">
+            <div className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center p-4">
               <Alert variant="destructive" className="max-w-md">
                 <CameraOff className="h-4 w-4" />
                 <AlertTitle>Camera Access Required</AlertTitle>
                 <AlertDescription>
-                  To view this item in your room, please allow camera access in your browser settings and refresh the page.
+                  To view this item in your room, please allow camera access in your browser settings.
                 </AlertDescription>
               </Alert>
             </div>
@@ -273,3 +284,5 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
     </div>
   );
 }
+
+    

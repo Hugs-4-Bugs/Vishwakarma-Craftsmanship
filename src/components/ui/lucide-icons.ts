@@ -27,5 +27,12 @@ export {
     Moon,
     Github,
     Twitter,
-    Instagram
+    Instagram,
+    Move,
+    ZoomIn,
+    ZoomOut,
+    RotateCcw,
+    RotateCw
 } from 'lucide-react';
+
+    
