@@ -1,7 +1,7 @@
 
-"use client";
+'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { products, categories, materials, colors } from '@/lib/data';
 import { ProductCard } from '@/components/shared/product-card';
@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
-import { Search, Filter, X, Check } from 'lucide-react';
+import { Search, Filter, X, Check, LoaderCircle } from 'lucide-react';
 import type { Product } from '@/lib/types';
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
@@ -171,7 +171,7 @@ function FilterSidebar({
 }
 
 
-export default function ShopPage() {
+function ShopPageContent() {
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get('category') || 'all';
   
@@ -268,17 +268,8 @@ export default function ShopPage() {
     setFilteredProducts(tempProducts);
   }, [activeFilters]);
 
-
   return (
-    <div className="bg-background">
-      <div className="container mx-auto px-4 py-24 sm:py-32">
-        <div className="text-center mb-12">
-          <h1 className="font-headline text-4xl md:text-5xl font-bold text-primary">Our Collection</h1>
-          <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-            Explore our curated selection of fine furniture, designed to bring life and luxury to your home.
-          </p>
-        </div>
-
+    <>
         <div className="mb-8 flex justify-end">
             <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
                 <SheetTrigger asChild>
@@ -322,6 +313,31 @@ export default function ShopPage() {
               </div>
           )}
         </main>
+    </>
+  );
+}
+
+function LoadingFallback() {
+    return (
+        <div className="flex items-center justify-center min-h-[60vh]">
+            <LoaderCircle className="h-10 w-10 animate-spin text-primary" />
+        </div>
+    );
+}
+
+export default function ShopPage() {
+  return (
+    <div className="bg-background">
+      <div className="container mx-auto px-4 py-24 sm:py-32">
+        <div className="text-center mb-12">
+          <h1 className="font-headline text-4xl md:text-5xl font-bold text-primary">Our Collection</h1>
+          <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
+            Explore our curated selection of fine furniture, designed to bring life and luxury to your home.
+          </p>
+        </div>
+        <Suspense fallback={<LoadingFallback />}>
+          <ShopPageContent />
+        </Suspense>
       </div>
     </div>
   );
