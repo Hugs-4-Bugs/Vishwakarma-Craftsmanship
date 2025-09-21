@@ -23,7 +23,7 @@ const teamMembers = [
         role: 'Managing Director (MD)', 
         phone: '9504259392', 
         imageId: 'carpenter-3',
-        description: null
+        description: 'Kashinath Sharma oversees the day-to-day operations, ensuring that every project is executed flawlessly and meets our high standards of quality and timeliness.'
     },
     {
         name: 'Gauri Shankar Sharma',
@@ -37,7 +37,7 @@ const teamMembers = [
         role: 'Furniture Architecture',
         phone: '', 
         imageId: 'carpenter-3',
-        description: null
+        description: 'A key member of our design team, Vijay Sharma specializes in the structural integrity and technical blueprints of our furniture, ensuring durability and flawless construction.'
     },
     { 
         name: 'Vivek Kumar', 
@@ -51,7 +51,7 @@ const teamMembers = [
         role: 'Business Handling', 
         phone: '9473417355', 
         imageId: 'carpenter-1',
-        description: null
+        description: 'Nachiketa Sharma manages client relations and project coordination. He is the friendly face ensuring a smooth and satisfying experience for every customer.'
     },
 ];
 
