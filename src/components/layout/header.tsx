@@ -29,11 +29,16 @@ export function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      // For homepage, header becomes "scrolled" after user scrolls past the hero viewport height (100vh)
+      // For other pages, it's immediate.
+      const scrollThreshold = isHomePage ? window.innerHeight : 10;
+      setIsScrolled(window.scrollY > scrollThreshold);
     };
-    window.addEventListener('scroll', handleScroll);
+
+    handleScroll(); // Set initial state
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isHomePage]);
 
   useEffect(() => {
     setIsMenuOpen(false);
@@ -50,7 +55,7 @@ export function Header() {
     'text-sm font-medium transition-colors hover:text-primary',
     pathname === href ? 'text-primary' : (isScrolled || !isHomePage) ? 'text-foreground/80' : 'text-white/80 hover:text-white',
   );
-
+  
   const iconButtonClasses = cn(
     'transition-colors',
     (isScrolled || !isHomePage) ? 'text-foreground/80 hover:text-primary' : 'text-white hover:text-white hover:bg-white/10'
@@ -77,7 +82,7 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className={iconButtonClasses}>
+            <Button variant="ghost" size="icon" className={cn(iconButtonClasses, 'relative')}>
               <ShoppingCart className="h-5 w-5" />
               <span className="sr-only">Cart</span>
             </Button>

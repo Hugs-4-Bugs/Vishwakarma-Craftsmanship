@@ -35,29 +35,31 @@ function Hero() {
 
 
   return (
-    <div ref={targetRef} className="relative h-[120vh] -mt-20">
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <motion.div className="absolute inset-0 z-0" style={{ y: yBg }}>
-          {bgImage && (
-            <Image
-              src={bgImage.imageUrl}
-              alt="Carpentry background"
-              fill
-              className="object-cover"
-              quality={90}
-              priority
-              data-ai-hint={bgImage.imageHint}
-            />
-          )}
-          <div className="absolute inset-0 bg-black/40" />
-        </motion.div>
+    <div ref={targetRef} className="relative h-[120vh]">
+      <div className="sticky top-0 h-screen w-full flex flex-col">
+        <div className="absolute inset-0 z-0">
+          <motion.div className="absolute inset-0" style={{ y: yBg }}>
+            {bgImage && (
+              <Image
+                src={bgImage.imageUrl}
+                alt="Carpentry background"
+                fill
+                className="object-cover"
+                quality={90}
+                priority
+                data-ai-hint={bgImage.imageHint}
+              />
+            )}
+            <div className="absolute inset-0 bg-black/40" />
+          </motion.div>
+        </div>
 
         <motion.div
-          className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white"
+          className="relative z-10 flex flex-col flex-grow h-full"
           style={{ opacity: opacityHero }}
         >
-          <div className="container mx-auto px-4 flex flex-col h-full">
-            <div className="flex-1 flex flex-col justify-center">
+          <div className="container mx-auto px-4 flex flex-col flex-grow text-white text-center">
+            <div className="flex-1 flex flex-col items-center justify-center">
                 <h1 className="font-headline text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
                   Style Your Home with
                 </h1>
