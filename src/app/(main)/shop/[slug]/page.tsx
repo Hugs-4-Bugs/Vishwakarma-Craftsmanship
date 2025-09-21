@@ -24,14 +24,16 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 
-import { CheckCircle, ShoppingCart, Share2, Heart, AlertTriangle, X } from 'lucide-react';
+import { CheckCircle, ShoppingCart, Share2, Heart, AlertTriangle, X, CameraOff } from 'lucide-react';
 
-function ARViewerModal({ children }: { children: React.ReactNode }) {
+function ARViewerModal({ children, product }: { children: React.ReactNode, product: Product }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
+    let stream: MediaStream | null = null;
     const getCameraPermission = async () => {
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         toast({
@@ -44,7 +46,7 @@ function ARViewerModal({ children }: { children: React.ReactNode }) {
       }
 
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        stream = await navigator.mediaDevices.getUserMedia({ video: true });
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
         }
@@ -52,51 +54,64 @@ function ARViewerModal({ children }: { children: React.ReactNode }) {
       } catch (error) {
         console.error('Error accessing camera:', error);
         setHasCameraPermission(false);
-        toast({
-          variant: 'destructive',
-          title: 'Camera Access Denied',
-          description: 'Please enable camera permissions in your browser settings to use this feature.',
-        });
       }
     };
     
-    // Only request permission when the dialog is likely to be opened.
-    // A better implementation might tie this to the Dialog's onOpenChange.
-    if(hasCameraPermission === null) {
+    if(isDialogOpen && hasCameraPermission === null) {
         getCameraPermission();
     }
-  }, [hasCameraPermission, toast]);
+
+    return () => {
+      // Stop the camera stream when the component unmounts or dialog closes
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, [isDialogOpen, hasCameraPermission, toast]);
+
+  const productPlaceholder = PlaceHolderImages.find(p => p.id === product.image);
 
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-w-4xl h-4/5 flex flex-col p-0">
-        <DialogHeader className="p-6 pb-0">
+      <DialogContent className="max-w-4xl h-[90vh] flex flex-col p-0">
+        <DialogHeader className="p-6 pb-2">
           <DialogTitle>AR Preview</DialogTitle>
           <DialogDescription>
-            Position the furniture in your room. You can move, scale, and rotate the object.
+            Visualize the <span className="font-semibold">{product.name}</span> in your own space.
           </DialogDescription>
         </DialogHeader>
-        <div className="flex-1 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gray-900 flex items-center justify-center">
-            {hasCameraPermission === null && <p className="text-white">Requesting camera access...</p>}
-            <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted playsInline />
+        <div className="flex-1 relative overflow-hidden bg-background">
+          <div className="absolute inset-0 bg-secondary flex items-center justify-center">
+            {hasCameraPermission === null && (
+              <div className="text-center text-secondary-foreground">
+                <p>Requesting camera access...</p>
+              </div>
+            )}
+            <video ref={videoRef} className={`w-full h-full object-cover transition-opacity ${hasCameraPermission ? 'opacity-100' : 'opacity-0'}`} autoPlay muted playsInline />
           </div>
 
           {/* Placeholder for 3D model */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-             <div className="w-1/2 h-1/2 bg-white/30 backdrop-blur-sm rounded-lg flex items-center justify-center pointer-events-auto">
-                <p className="text-white font-bold text-2xl">[3D Model Here]</p>
-             </div>
+            {productPlaceholder && (
+              <Image
+                src={productPlaceholder.imageUrl}
+                alt={product.name}
+                width={300}
+                height={300}
+                className="w-1/2 h-auto object-contain pointer-events-auto opacity-80 drop-shadow-2xl"
+                data-ai-hint={productPlaceholder.imageHint}
+              />
+            )}
           </div>
            
           {hasCameraPermission === false && (
-            <div className="absolute inset-0 bg-black/70 flex items-center justify-center">
+            <div className="absolute inset-0 bg-black/80 flex items-center justify-center">
               <Alert variant="destructive" className="max-w-md">
-                <AlertTriangle className="h-4 w-4" />
+                <CameraOff className="h-4 w-4" />
                 <AlertTitle>Camera Access Required</AlertTitle>
                 <AlertDescription>
-                  Please allow camera access in your browser settings to use this feature.
+                  To view this item in your room, please allow camera access in your browser settings and refresh the page.
                 </AlertDescription>
               </Alert>
             </div>
@@ -114,21 +129,14 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
     useEffect(() => {
         const foundProduct = products.find(p => p.slug === params.slug);
         if (!foundProduct) {
-            // Using a timeout to avoid immediate notFound call during render
-            // This is a common pattern for client components that need to handle not found cases
-            const timer = setTimeout(() => {
-                if (!products.find(p => p.slug === params.slug)) {
-                   // notFound(); This causes issues in some Next.js versions with client components
-                   // For now, we will just show a message.
-                }
-            }, 0);
-            return () => clearTimeout(timer);
+            // This is a client component, so we handle "not found" statefully
+            // instead of calling notFound() during render.
         }
         setProduct(foundProduct);
     }, [params.slug]);
 
 
-  if (product === undefined) {
+  if (!product) {
     return (
       <div className="container mx-auto px-4 py-48 text-center">
         <h1 className="text-3xl font-bold">Product not found</h1>
@@ -149,20 +157,23 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
         <div className="grid md:grid-cols-2 gap-12 lg:gap-16">
           {/* Product Gallery */}
           <div>
-            <div className="aspect-square bg-card rounded-lg flex items-center justify-center mb-4 shadow-lg">
+            <div className="group relative aspect-square bg-card rounded-lg flex items-center justify-center mb-4 shadow-lg overflow-hidden">
                 {/* This would be a 3D viewer component */}
                  <Image
                     src={imageUrl}
                     alt={product.name}
                     width={800}
                     height={600}
-                    className="w-full h-auto object-contain rounded-lg"
+                    className="w-full h-auto object-contain rounded-lg transition-transform duration-300 group-hover:scale-105"
                     data-ai-hint={imageHint}
                 />
+                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <p className="text-white text-lg font-semibold">3D View Placeholder</p>
+                </div>
             </div>
             <div className="grid grid-cols-4 gap-4">
               {[1, 2, 3, 4].map(i => {
-                 const thumbPlaceholder = PlaceHolderImages.find(p => p.id === product.image.replace(/-\d/,'-' + ((parseInt(product.image.slice(-1)) + i) % 5 + 1)));
+                 const thumbPlaceholder = PlaceHolderImages.find(p => p.id === product.image.replace(/-\d/, '-' + ((parseInt(product.image.slice(-1)) || 1) + i) % 5 + 1));
                  return (
                     <div key={i} className="aspect-square bg-card rounded-lg flex items-center justify-center overflow-hidden border-2 border-transparent hover:border-primary cursor-pointer">
                         <Image
@@ -192,7 +203,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
             
             <ul className="space-y-3 text-sm mb-8">
               <li className="flex items-center"><CheckCircle className="h-4 w-4 text-accent mr-3" /><span>Dimensions: <strong>{product.dimensions}</strong></span></li>
-              <li className="flex items-center"><CheckCircle className="h-4 w-4 text-accent mr-3" /><span>Material: <strong>{product.name.split(' ')[0]} {product.name.split(' ')[1]}</strong></span></li>
+              <li className="flex items-center"><CheckCircle className="h-4 w-4 text-accent mr-3" /><span>Material: <strong>{product.material}</strong></span></li>
               <li className="flex items-center"><CheckCircle className="h-4 w-4 text-accent mr-3" /><span>Warranty: <strong>2 Years</strong></span></li>
             </ul>
 
@@ -205,9 +216,9 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 <Button size="lg" className="flex-1">
                     <ShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
                 </Button>
-                <ARViewerModal>
+                <ARViewerModal product={product}>
                     <Button size="lg" variant="outline" className="flex-1">
-                        Try in AR
+                        View in My Room
                     </Button>
                 </ARViewerModal>
             </div>
@@ -231,5 +242,3 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
     </div>
   );
 }
-
-    
