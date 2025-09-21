@@ -19,15 +19,15 @@ function AnimatedHero() {
         className="object-cover"
         quality={80}
         priority
-        data-ai-hint="abstract background"
+        data-ai-hint="wood textures carpentry"
       />
       <div className="container mx-auto px-4 relative z-20">
         <div className="min-h-[80vh] md:min-h-[90vh] flex flex-col justify-center items-center text-center">
             <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-primary-foreground bg-primary/70 p-4 md:p-6 rounded-lg shadow-xl">
-              Furniture for Every Home,
+              Style Your Home with
             </h1>
-            <h2 className="font-headline text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight mt-4">
-              from Roots to Luxury
+            <h2 className="font-headline text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight mt-4 text-foreground">
+              Vishwakarma Craftsmanship
             </h2>
 
             <p className="mt-8 max-w-2xl text-lg md:text-xl text-foreground/80">
@@ -35,10 +35,10 @@ function AnimatedHero() {
             </p>
             <div className="mt-10 flex gap-4">
               <Button asChild size="lg" className="font-bold">
-                <Link href="/shop">Shop Collection</Link>
+                <Link href="/shop">Shop Ready-Made</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="font-bold">
-                <Link href="/carpenters">Book a Carpenter</Link>
+                <Link href="/custom-builder">Build Custom Furniture</Link>
               </Button>
             </div>
         </div>

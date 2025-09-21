@@ -79,12 +79,6 @@
       "imageHint": "young carpenter"
     },
     {
-      "id": "carpenter-4",
-      "description": "Portrait of a skilled female carpenter.",
-      "imageUrl": "https://picsum.photos/seed/carp4/400/400",
-      "imageHint": "female carpenter"
-    },
-    {
       "id": "blog-1",
       "description": "Various types of wood stacked together.",
       "imageUrl": "https://picsum.photos/seed/blog1/600/400",
@@ -104,9 +98,9 @@
     },
     {
       "id": "hero-bg",
-      "description": "Abstract blurred background with warm tones.",
+      "description": "Abstract blurred background with wood textures and warm tones.",
       "imageUrl": "https://picsum.photos/seed/herobg/1920/1080",
-      "imageHint": "abstract background"
+      "imageHint": "wood textures carpentry"
     },
     {
       "id": "about-team",

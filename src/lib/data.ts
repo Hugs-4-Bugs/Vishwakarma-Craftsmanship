@@ -142,15 +142,6 @@ export const carpenters: Carpenter[] = [
     specialty: ['Modern Designs', 'Wardrobe Assembly'],
     image: 'carpenter-3',
   },
-    {
-    id: '4',
-    name: 'Anjali Devi',
-    experience: 12,
-    rating: 4.7,
-    hourlyRate: 550,
-    specialty: ['Custom Kitchen Cabinets', 'Wood Finishing'],
-    image: 'carpenter-4',
-  },
 ];
 
 export const blogPosts: BlogPost[] = [
