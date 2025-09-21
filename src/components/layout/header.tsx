@@ -28,6 +28,7 @@ export function Header() {
   const pathname = usePathname();
 
   const isHomePage = pathname === '/';
+  const isAuthPage = pathname.startsWith('/auth');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,6 +44,10 @@ export function Header() {
   useEffect(() => {
     setIsMenuOpen(false);
   }, [pathname]);
+  
+  if (isAuthPage) {
+    return null;
+  }
 
   const headerClasses = cn(
     'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
@@ -87,6 +92,14 @@ export function Header() {
               <ShoppingCart className="h-5 w-5" />
               <span className="sr-only">Cart</span>
             </Button>
+            <div className="hidden sm:flex items-center gap-2">
+               <Button asChild variant="ghost" className={cn(iconButtonClasses)}>
+                    <Link href="/auth/login">Login</Link>
+                </Button>
+                <Button asChild className={cn((isScrolled || !isHomePage) ? "" : "bg-white text-black hover:bg-white/90")}>
+                    <Link href="/auth/signup">Sign Up</Link>
+                </Button>
+            </div>
             <ThemeToggle />
             <div className="md:hidden">
               <Button
@@ -124,6 +137,14 @@ export function Header() {
                   {link.label}
                 </Link>
               ))}
+              <div className="flex items-center gap-4 pt-4">
+                 <Button asChild variant="outline">
+                    <Link href="/auth/login">Login</Link>
+                </Button>
+                <Button asChild>
+                    <Link href="/auth/signup">Sign Up</Link>
+                </Button>
+              </div>
             </nav>
           </motion.div>
         )}
