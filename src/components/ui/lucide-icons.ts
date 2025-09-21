@@ -38,5 +38,6 @@ export {
     Hammer,
     Palette,
     Ruler,
-    Layers
+    Layers,
+    Clock
 } from 'lucide-react';
