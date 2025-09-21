@@ -47,44 +47,46 @@ const finishes = [
     { name: 'Distressed White', prefix: 'Vintage' },
 ];
 
-// Helper to get a random image for a category
-const getImageForCategory = (category: string) => {
-    const categoryImages: Record<string, string[]> = {
-        'Sofa': ['sofa-1', 'sofa-2', 'sofa-3', 'sofa-4', 'sofa-5'],
-        'Beds': ['beds-1', 'beds-2', 'beds-3', 'beds-4', 'beds-5'],
-        'Dining': ['dining-1', 'dining-2', 'dining-3'],
-        'Tables': ['tables-1', 'tables-2', 'tables-3'],
-        'Chairs': ['chairs-1', 'chairs-2', 'chairs-3', 'chairs-4', 'chairs-5'],
-        'Wardrobes': ['wardrobes-1', 'wardrobes-2', 'wardrobes-3'],
-        'Storage': ['storage-1', 'storage-2', 'storage-3'],
-        'Office': ['office-1', 'office-2'],
-    };
-    const images = categoryImages[category] || ['sofa-1'];
-    return images[Math.floor(Math.random() * images.length)];
+const categoryImages: Record<string, string[]> = {
+    'Sofa': ['sofa-1', 'sofa-2', 'sofa-3', 'sofa-4', 'sofa-5'],
+    'Beds': ['beds-1', 'beds-2', 'beds-3', 'beds-4', 'beds-5'],
+    'Dining': ['dining-1', 'dining-2', 'dining-3'],
+    'Tables': ['tables-1', 'tables-2', 'tables-3'],
+    'Chairs': ['chairs-1', 'chairs-2', 'chairs-3', 'chairs-4', 'chairs-5'],
+    'Wardrobes': ['wardrobes-1', 'wardrobes-2', 'wardrobes-3'],
+    'Storage': ['storage-1', 'storage-2', 'storage-3'],
+    'Office': ['office-1', 'office-2'],
 };
 
+// Helper to get a deterministic image for a category
+const getImageForCategory = (category: string, index: number) => {
+    const images = categoryImages[category] || ['sofa-1'];
+    return images[index % images.length];
+};
 
 let productCounter = 1;
-export const products: Product[] = Array.from({ length: 25 }).flatMap(() =>
-  productBases.flatMap(base =>
-    woodTypes.flatMap(wood =>
-      finishes.map(finish => {
-        const productName = `${wood.prefix} ${finish.prefix} ${base.name}`;
-        const productId = `${productCounter++}`;
-        return {
-          id: productId,
-          name: productName,
-          slug: productName.toLowerCase().replace(/\s+/g, '-'),
-          category: base.category,
-          price: Math.floor(base.price * wood.priceMod / 100) * 100,
-          description: base.desc,
-          image: getImageForCategory(base.category),
-          dimensions: '180cm x 200cm x 90cm', // Placeholder dimensions
-        };
-      })
-    )
-  )
-).slice(0, 155); // Limit to 155 products
+export const products: Product[] = [];
+
+// Generate a deterministic list of products
+for (let i = 0; i < 155; i++) {
+    const base = productBases[i % productBases.length];
+    const wood = woodTypes[i % woodTypes.length];
+    const finish = finishes[i % finishes.length];
+
+    const productName = `${wood.prefix} ${finish.prefix} ${base.name}`;
+    const productId = `${productCounter++}`;
+
+    products.push({
+        id: productId,
+        name: productName,
+        slug: `${productName.toLowerCase().replace(/\s+/g, '-')}-${productId}`,
+        category: base.category,
+        price: Math.floor((base.price * wood.priceMod) / 100) * 100,
+        description: base.desc,
+        image: getImageForCategory(base.category, i),
+        dimensions: '180cm x 200cm x 90cm', // Placeholder dimensions
+    });
+}
 
 
 export const carpenters: Carpenter[] = [
