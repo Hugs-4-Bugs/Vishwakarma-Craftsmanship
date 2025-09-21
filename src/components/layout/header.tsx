@@ -32,14 +32,14 @@ export function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollThreshold = isHomePage ? window.innerHeight : 10;
+      const scrollThreshold = 10;
       setIsScrolled(window.scrollY > scrollThreshold);
     };
 
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isHomePage]);
+  }, []);
 
   useEffect(() => {
     setIsMenuOpen(false);
@@ -51,14 +51,20 @@ export function Header() {
 
   const headerClasses = cn(
     'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-    isScrolled || !isHomePage
+    isScrolled
       ? 'bg-background/80 shadow-md backdrop-blur-sm'
-      : 'bg-transparent'
+      : isHomePage 
+      ? 'bg-gradient-to-b from-black/60 to-transparent'
+      : 'bg-background/80 shadow-md backdrop-blur-sm'
   );
 
   const linkClasses = (href: string) => cn(
     'text-sm font-medium transition-colors hover:text-primary flex items-center gap-2',
-    pathname === href ? 'text-primary' : (isScrolled || !isHomePage) ? 'text-foreground/80' : 'text-white/80 hover:text-white',
+    pathname === href 
+        ? 'text-primary' 
+        : (isScrolled || !isHomePage) 
+        ? 'text-foreground/80' 
+        : 'text-white/80 hover:text-white',
   );
   
   const iconButtonClasses = cn(
