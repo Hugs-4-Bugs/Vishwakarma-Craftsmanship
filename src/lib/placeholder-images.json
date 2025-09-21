@@ -68,9 +68,9 @@
     },
     {
       "id": "hero-bg",
-      "description": "Abstract blurred background with wood textures and warm tones.",
-      "imageUrl": "https://picsum.photos/seed/herobg/1920/1080",
-      "imageHint": "wood textures carpentry"
+      "description": "A professional carpentry workshop with tools and wood.",
+      "imageUrl": "https://picsum.photos/seed/woodwork/1920/1080",
+      "imageHint": "carpentry workshop"
     },
     {
       "id": "about-team",
