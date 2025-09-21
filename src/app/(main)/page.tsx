@@ -87,7 +87,7 @@ function Hero() {
                 <motion.div 
                     className="flex gap-4"
                     animate={{ x: ['0%', '-100%'] }}
-                    transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+                    transition={{ duration: 40, repeat: Infinity, ease: 'linear', repeatType: 'loop' }}
                     whileHover={{ animationPlayState: 'paused' }}
                 >
                     {[...showcaseProducts, ...showcaseProducts].map(({ product, placeholder }, index) => (
