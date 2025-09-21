@@ -173,7 +173,7 @@ export default function SignupPage() {
                 <Input id="confirm-password" type="password" required />
               </div>
               <Button type="submit" className="w-full" disabled={!isSignupEnabled}>
-                Create Account
+                {role === 'admin' ? 'Request Admin Account' : 'Create Account'}
               </Button>
             </form>
 
@@ -203,4 +203,3 @@ export default function SignupPage() {
   );
 }
 
-    
