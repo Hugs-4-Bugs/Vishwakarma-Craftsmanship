@@ -56,7 +56,7 @@ export function Header() {
                 href={link.href}
                 className={cn(
                   'text-sm font-medium transition-colors hover:text-primary',
-                  pathname === link.href ? 'text-primary' : 'text-foreground/80'
+                  pathname === link.href ? 'text-primary' : isScrolled ? 'text-foreground/80' : 'text-white/80 hover:text-white',
                 )}
               >
                 {link.label}
@@ -65,7 +65,7 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" className={cn(isScrolled ? '' : 'text-white hover:text-white hover:bg-white/10')}>
               <ShoppingCart className="h-5 w-5" />
               <span className="sr-only">Cart</span>
             </Button>
@@ -75,6 +75,7 @@ export function Header() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className={cn(isScrolled ? '' : 'text-white hover:text-white hover:bg-white/10')}
               >
                 {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                 <span className="sr-only">Toggle menu</span>
