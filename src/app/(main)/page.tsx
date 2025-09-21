@@ -195,16 +195,18 @@ export default function HomePage() {
       </Section>
 
        <Section className="bg-secondary">
-        <SectionTitle subtitle="Get personalized furniture suggestions based on your unique style and needs.">
-          AI-Powered Recommendations
+        <SectionTitle subtitle="Don't know where to start? Let our AI guide you to the perfect furniture for your home.">
+          Take Our Style Quiz
         </SectionTitle>
         <Card className="max-w-3xl mx-auto">
           <CardContent className="p-8 text-center">
             <Lightbulb className="h-12 w-12 mx-auto text-accent mb-4" />
             <h3 className="font-headline text-2xl font-semibold mb-2">Find Your Perfect Match</h3>
-            <p className="text-muted-foreground mb-6">Let our AI assistant curate a list of furniture that perfectly fits your space and taste. It's like having a personal interior designer.</p>
-            <Button size="lg" variant="default" data-cursor-interactive>
-                Get Recommendations
+            <p className="text-muted-foreground mb-6">Answer a few simple questions and our AI assistant will curate a personalized style profile and furniture recommendations just for you.</p>
+            <Button asChild size="lg" variant="default" data-cursor-interactive>
+                <Link href="/style-quiz">
+                 Start the Quiz
+                </Link>
             </Button>
           </CardContent>
         </Card>

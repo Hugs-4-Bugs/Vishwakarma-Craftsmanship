@@ -3,3 +3,4 @@ config();
 
 import '@/ai/flows/ar-preview.flow.ts';
 import '@/ai/flows/ai-furniture-recommendations.flow.ts';
+import '@/ai/flows/style-quiz.flow.ts';

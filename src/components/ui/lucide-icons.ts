@@ -32,7 +32,9 @@ export {
     ZoomIn,
     ZoomOut,
     RotateCcw,
-    RotateCw
+    RotateCw,
+    Sparkles,
+    LoaderCircle,
 } from 'lucide-react';
 
     

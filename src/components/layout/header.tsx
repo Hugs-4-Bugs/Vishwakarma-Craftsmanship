@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Menu, X, ShoppingCart } from 'lucide-react';
+import { Menu, X, ShoppingCart, Sparkles } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
@@ -16,6 +16,7 @@ const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/shop', label: 'Shop' },
   { href: '/carpenters', label: 'Carpenters' },
+  { href: '/style-quiz', label: 'Style Quiz', icon: Sparkles },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ];
@@ -52,7 +53,7 @@ export function Header() {
   );
 
   const linkClasses = (href: string) => cn(
-    'text-sm font-medium transition-colors hover:text-primary',
+    'text-sm font-medium transition-colors hover:text-primary flex items-center gap-2',
     pathname === href ? 'text-primary' : (isScrolled || !isHomePage) ? 'text-foreground/80' : 'text-white/80 hover:text-white',
   );
   
@@ -76,6 +77,7 @@ export function Header() {
                 href={link.href}
                 className={linkClasses(link.href)}
               >
+                {link.icon && <link.icon className={cn("h-4 w-4", link.href === '/style-quiz' ? "text-accent" : "")} />}
                 {link.label}
               </Link>
             ))}
@@ -115,10 +117,11 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    'text-lg font-medium transition-colors hover:text-primary',
+                    'text-lg font-medium transition-colors hover:text-primary flex items-center gap-2',
                     pathname === link.href ? 'text-primary' : 'text-foreground/80'
                   )}
                 >
+                  {link.icon && <link.icon className={cn("h-5 w-5", link.href === '/style-quiz' ? "text-accent" : "")} />}
                   {link.label}
                 </Link>
               ))}
