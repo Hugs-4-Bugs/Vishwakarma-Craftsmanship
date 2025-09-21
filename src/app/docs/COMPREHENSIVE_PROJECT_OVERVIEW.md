@@ -1,4 +1,3 @@
-
 # Comprehensive Project Overview: Vishwakarma 3D Showroom
 
 ## 1. Introduction

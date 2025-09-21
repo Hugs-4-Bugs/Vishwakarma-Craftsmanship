@@ -1,4 +1,3 @@
-
 # Frontend Modification Guide
 
 This document serves as a guide to understanding the Next.js frontend project structure and provides instructions on where to make changes for specific sections of the application.

@@ -1,4 +1,3 @@
-
 # Environment Variable and Setup Guide
 
 This guide explains how to set up environment variables for both local development and production deployment on Vercel, ensuring your frontend can communicate securely with Firebase services and your future Java backend.

@@ -1,4 +1,3 @@
-
 # Backend API Requirements Guide (Java Spring Boot)
 
 This document outlines the complete API requirements and project structure for the **Vishwakarma 3D Showroom** backend, to be built with Java Spring Boot.
