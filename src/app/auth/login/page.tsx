@@ -41,11 +41,17 @@ export default function LoginPage() {
       });
       return;
     }
+    // Simulate successful login
     console.log('Logging in with:', { email, password });
+    
+    // Store mock user data in localStorage
+    localStorage.setItem('user', JSON.stringify({ name: 'Test User', email: email }));
+    
     toast({
       title: 'Login Successful!',
-      description: 'You are logged in successfully. Redirecting...',
+      description: 'You are being redirected to the homepage.',
     });
+    
     setTimeout(() => {
       router.push('/');
     }, 1500);

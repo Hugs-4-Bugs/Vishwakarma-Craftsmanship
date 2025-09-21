@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Logo } from '@/components/icons/logo';
+import { UserNav } from './user-nav';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -25,12 +26,19 @@ const navLinks = [
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
   const pathname = usePathname();
 
   const isHomePage = pathname === '/';
   const isAuthPage = pathname.startsWith('/auth');
 
   useEffect(() => {
+    // Check for user session in localStorage
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+
     const handleScroll = () => {
       const scrollThreshold = 10;
       setIsScrolled(window.scrollY > scrollThreshold);
@@ -99,12 +107,18 @@ export function Header() {
               <span className="sr-only">Cart</span>
             </Button>
             <div className="hidden sm:flex items-center gap-2">
-               <Button asChild variant="ghost" className={cn(iconButtonClasses)}>
-                    <Link href="/auth/login">Login</Link>
-                </Button>
-                <Button asChild className={cn((isScrolled || !isHomePage) ? "" : "bg-white text-black hover:bg-white/90")}>
-                    <Link href="/auth/signup">Sign Up</Link>
-                </Button>
+              {user ? (
+                <UserNav user={user} />
+              ) : (
+                <>
+                  <Button asChild variant="ghost" className={cn(iconButtonClasses)}>
+                      <Link href="/auth/login">Login</Link>
+                  </Button>
+                  <Button asChild className={cn((isScrolled || !isHomePage) ? "" : "bg-white text-black hover:bg-white/90")}>
+                      <Link href="/auth/signup">Sign Up</Link>
+                  </Button>
+                </>
+              )}
             </div>
             <ThemeToggle />
             <div className="md:hidden">
@@ -144,12 +158,18 @@ export function Header() {
                 </Link>
               ))}
               <div className="flex items-center gap-4 pt-4">
-                 <Button asChild variant="outline">
-                    <Link href="/auth/login">Login</Link>
-                </Button>
-                <Button asChild>
-                    <Link href="/auth/signup">Sign Up</Link>
-                </Button>
+                 {user ? (
+                    <UserNav user={user} />
+                 ) : (
+                   <>
+                    <Button asChild variant="outline">
+                        <Link href="/auth/login">Login</Link>
+                    </Button>
+                    <Button asChild>
+                        <Link href="/auth/signup">Sign Up</Link>
+                    </Button>
+                   </>
+                 )}
               </div>
             </nav>
           </motion.div>
