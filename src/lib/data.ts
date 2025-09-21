@@ -47,6 +47,16 @@ const finishes = [
     { name: 'Distressed White', prefix: 'Vintage' },
 ];
 
+export const materials = ['Wood', 'Metal', 'Fabric', 'Glass'];
+export const colors = [
+    { name: 'Natural', hex: '#D2B48C' },
+    { name: 'Walnut', hex: '#7B3F00' },
+    { name: 'Black', hex: '#333333' },
+    { name: 'White', hex: '#F5F5DC' },
+    { name: 'Grey', hex: '#808080' },
+    { name: 'Green', hex: '#556B2F' },
+];
+
 const categoryImages: Record<string, string[]> = {
     'Sofa': ['sofa-1', 'sofa-2', 'sofa-3', 'sofa-4', 'sofa-5'],
     'Beds': ['beds-1', 'beds-2', 'beds-3', 'beds-4', 'beds-5'],
@@ -72,6 +82,8 @@ for (let i = 0; i < 155; i++) {
     const base = productBases[i % productBases.length];
     const wood = woodTypes[i % woodTypes.length];
     const finish = finishes[i % finishes.length];
+    const material = materials[i % materials.length];
+    const color = colors[i % colors.length];
 
     const productName = `${wood.prefix} ${finish.prefix} ${base.name}`;
     const productId = `${productCounter++}`;
@@ -85,6 +97,8 @@ for (let i = 0; i < 155; i++) {
         description: base.desc,
         image: getImageForCategory(base.category, i),
         dimensions: '180cm x 200cm x 90cm', // Placeholder dimensions
+        material: material,
+        color: color,
     });
 }
 

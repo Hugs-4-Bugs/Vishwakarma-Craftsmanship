@@ -2,14 +2,22 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { products, categories } from '@/lib/data';
+import { products, categories, materials, colors } from '@/lib/data';
 import { ProductCard } from '@/components/shared/product-card';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
-import { Search, Filter, X } from 'lucide-react';
+import { Search, Filter, X, Check } from 'lucide-react';
 import type { Product } from '@/lib/types';
+import { Checkbox } from '@/components/ui/checkbox';
+import { cn } from '@/lib/utils';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 export default function ShopPage() {
   const searchParams = useSearchParams();
@@ -19,9 +27,19 @@ export default function ShopPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [priceValue, setPriceValue] = useState([150000]);
+  const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
 
   const maxPrice = useMemo(() => Math.max(...products.map(p => p.price), 150000), []);
 
+  const handleMaterialChange = (material: string) => {
+    setSelectedMaterials(prev => 
+      prev.includes(material) 
+        ? prev.filter(m => m !== material)
+        : [...prev, material]
+    );
+  };
+  
   const handleFilter = () => {
     let tempProducts = [...products];
 
@@ -42,6 +60,19 @@ export default function ShopPage() {
     // Filter by price
     tempProducts = tempProducts.filter(product => product.price <= priceValue[0]);
 
+    // Filter by materials
+    if (selectedMaterials.length > 0) {
+      tempProducts = tempProducts.filter(product =>
+        selectedMaterials.includes(product.material)
+      );
+    }
+
+    // Filter by color
+    if (selectedColor) {
+      tempProducts = tempProducts.filter(product => product.color.name === selectedColor);
+    }
+
+
     setFilteredProducts(tempProducts);
   };
 
@@ -49,12 +80,14 @@ export default function ShopPage() {
     setSearchQuery('');
     setSelectedCategory('all');
     setPriceValue([maxPrice]);
+    setSelectedMaterials([]);
+    setSelectedColor(null);
     setFilteredProducts(products);
   };
   
   useEffect(() => {
     handleFilter();
-  }, [selectedCategory]);
+  }, [selectedCategory, selectedMaterials, selectedColor, priceValue, searchQuery]);
   
   // Set initial max price for slider
   useEffect(() => {
@@ -76,12 +109,17 @@ export default function ShopPage() {
           {/* Filters Sidebar */}
           <aside className="md:col-span-1">
             <div className="sticky top-24 p-6 bg-card rounded-lg shadow-sm">
-              <h2 className="font-headline text-2xl font-semibold mb-6 flex items-center">
-                <Filter className="mr-2 h-5 w-5" />
-                Filters
-              </h2>
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="font-headline text-2xl font-semibold flex items-center">
+                  <Filter className="mr-2 h-5 w-5" />
+                  Filters
+                </h2>
+                <Button onClick={handleReset} variant="ghost" size="sm" className="text-xs">
+                    <X className="mr-1 h-3 w-3" /> Reset
+                </Button>
+              </div>
               
-              <div className="space-y-6">
+              <div className="space-y-8">
                 <div>
                   <label className="text-sm font-medium mb-2 block">Search</label>
                   <div className="relative">
@@ -110,7 +148,7 @@ export default function ShopPage() {
                 </div>
                 
                 <div>
-                   <label className="text-sm font-medium mb-2 block">Price Range (Max: ₹{priceValue[0].toLocaleString('en-IN')})</label>
+                   <label className="text-sm font-medium mb-4 block">Price Range</label>
                    <Slider 
                      value={priceValue} 
                      onValueChange={setPriceValue}
@@ -119,15 +157,57 @@ export default function ShopPage() {
                     />
                    <div className="flex justify-between text-xs text-muted-foreground mt-2">
                        <span>₹0</span>
-                       <span>₹{maxPrice.toLocaleString('en-IN')}+</span>
+                       <span>₹{priceValue[0].toLocaleString('en-IN')}+</span>
                    </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <Button onClick={handleFilter} className="w-full">Apply Filters</Button>
-                  <Button onClick={handleReset} variant="outline" className="w-full">
-                    <X className="mr-2 h-4 w-4" /> Reset
-                  </Button>
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Material</label>
+                  <div className="space-y-2">
+                    {materials.map(material => (
+                      <div key={material} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`material-${material}`}
+                          checked={selectedMaterials.includes(material)}
+                          onCheckedChange={() => handleMaterialChange(material)}
+                        />
+                        <label
+                          htmlFor={`material-${material}`}
+                          className="text-sm font-normal text-muted-foreground"
+                        >
+                          {material}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Color</label>
+                  <TooltipProvider>
+                    <div className="flex flex-wrap gap-2">
+                      {colors.map(color => (
+                        <Tooltip key={color.name}>
+                          <TooltipTrigger asChild>
+                            <button
+                              onClick={() => setSelectedColor(color.name === selectedColor ? null : color.name)}
+                              className={cn(
+                                "w-7 h-7 rounded-full border-2 transition-all",
+                                selectedColor === color.name ? 'border-primary scale-110' : 'border-transparent'
+                              )}
+                              style={{ backgroundColor: color.hex }}
+                            >
+                              {selectedColor === color.name && <Check className="w-4 h-4 text-white m-auto" />}
+                              <span className="sr-only">{color.name}</span>
+                            </button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>{color.name}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      ))}
+                    </div>
+                  </TooltipProvider>
                 </div>
               </div>
             </div>

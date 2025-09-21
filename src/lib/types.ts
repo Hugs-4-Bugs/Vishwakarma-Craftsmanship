@@ -7,6 +7,8 @@ export type Product = {
   description: string;
   image: string;
   dimensions: string;
+  material: string;
+  color: { name: string; hex: string };
 };
 
 export type Carpenter = {
