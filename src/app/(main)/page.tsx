@@ -56,25 +56,27 @@ function Hero() {
           className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white"
           style={{ opacity: opacityHero }}
         >
-          <div className="container mx-auto px-4 pt-20 md:pt-24">
-            <h1 className="font-headline text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
-              Style Your Home with
-            </h1>
-            <h2 className="font-headline mt-2 text-5xl font-bold tracking-tight text-primary sm:text-6xl md:text-7xl lg:text-8xl">
-              Vishwakarma Craftsmanship
-            </h2>
-            <p className="mx-auto mt-6 max-w-3xl text-base text-white/80 md:text-xl">
-              Discover exquisitely crafted furniture that brings elegance, comfort, and personality to your living space.
-            </p>
-            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button asChild size="lg" className="font-bold w-full sm:w-auto" data-cursor-size="80" data-cursor-text="Shop">
-                <Link href="/shop">Shop Ready-Made</Link>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-black font-bold w-full sm:w-auto" data-cursor-size="80" data-cursor-text="Build">
-                <Link href="/custom-builder">Build Custom Furniture</Link>
-              </Button>
+          <div className="container mx-auto px-4 flex flex-col h-full justify-center">
+            <div className="pt-20 md:pt-0">
+                <h1 className="font-headline text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
+                  Style Your Home with
+                </h1>
+                <h2 className="font-headline mt-2 text-5xl font-bold tracking-tight text-primary sm:text-6xl md:text-7xl lg:text-8xl">
+                  Vishwakarma Craftsmanship
+                </h2>
+                <p className="mx-auto mt-6 max-w-3xl text-base text-white/80 md:text-xl">
+                  Discover exquisitely crafted furniture that brings elegance, comfort, and personality to your living space.
+                </p>
+                <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <Button asChild size="lg" className="font-bold w-full sm:w-auto" data-cursor-size="80" data-cursor-text="Shop">
+                    <Link href="/shop">Shop Ready-Made</Link>
+                  </Button>
+                  <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-black font-bold w-full sm:w-auto" data-cursor-size="80" data-cursor-text="Build">
+                    <Link href="/custom-builder">Build Custom Furniture</Link>
+                  </Button>
+                </div>
             </div>
-             <div className="mt-12 w-full max-w-4xl h-56 md:h-64 flex items-center justify-center bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-4">
+             <div className="mt-auto mb-4 w-full max-w-4xl h-48 sm:h-56 md:h-64 flex items-center justify-center bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-4">
                 <Carousel
                   opts={{
                     align: "start",
@@ -84,7 +86,7 @@ function Hero() {
                 >
                   <CarouselContent className="h-full">
                     {showcaseImages.map((image, index) => (
-                      <CarouselItem key={index} className="basis-1/2 md:basis-1/3 lg:basis-1/4 h-full flex items-center justify-center">
+                      <CarouselItem key={index} className="basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 h-full flex items-center justify-center">
                         <div className="p-1 h-full w-full">
                            <Card className="h-full w-full overflow-hidden bg-transparent border-none">
                             <CardContent className="relative flex h-full w-full items-center justify-center p-0">
