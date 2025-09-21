@@ -9,8 +9,6 @@ export const categories = [
   { slug: 'wardrobes', name: 'Wardrobes' },
   { slug: 'storage', name: 'Storage' },
   { slug: 'office', name: 'Office' },
-  { slug: 'premium', name: 'Premium' },
-  { slug: 'budget', name: 'Budget' },
 ];
 
 const productBases = [
@@ -49,25 +47,44 @@ const finishes = [
     { name: 'Distressed White', prefix: 'Vintage' },
 ];
 
+// Helper to get a random image for a category
+const getImageForCategory = (category: string) => {
+    const categoryImages: Record<string, string[]> = {
+        'Sofa': ['sofa-1', 'sofa-2', 'sofa-3', 'sofa-4', 'sofa-5'],
+        'Beds': ['beds-1', 'beds-2', 'beds-3', 'beds-4', 'beds-5'],
+        'Dining': ['dining-1', 'dining-2', 'dining-3'],
+        'Tables': ['tables-1', 'tables-2', 'tables-3'],
+        'Chairs': ['chairs-1', 'chairs-2', 'chairs-3', 'chairs-4', 'chairs-5'],
+        'Wardrobes': ['wardrobes-1', 'wardrobes-2', 'wardrobes-3'],
+        'Storage': ['storage-1', 'storage-2', 'storage-3'],
+        'Office': ['office-1', 'office-2'],
+    };
+    const images = categoryImages[category] || ['sofa-1'];
+    return images[Math.floor(Math.random() * images.length)];
+};
+
+
 let productCounter = 1;
-export const products: Product[] = productBases.flatMap(base =>
+export const products: Product[] = Array.from({ length: 25 }).flatMap(() =>
+  productBases.flatMap(base =>
     woodTypes.flatMap(wood =>
-        finishes.map(finish => {
-            const productName = `${wood.prefix} ${finish.prefix} ${base.name}`;
-            const productId = `${productCounter++}`;
-            return {
-                id: productId,
-                name: productName,
-                slug: productName.toLowerCase().replace(/\s+/g, '-'),
-                category: base.category,
-                price: Math.floor(base.price * wood.priceMod / 100) * 100,
-                description: base.desc,
-                image: `prod-${( ( (productCounter-2) % 15) + 1)}`, // Cycle through 15 placeholder images
-                dimensions: '180cm x 200cm x 90cm', // Placeholder dimensions
-            };
-        })
+      finishes.map(finish => {
+        const productName = `${wood.prefix} ${finish.prefix} ${base.name}`;
+        const productId = `${productCounter++}`;
+        return {
+          id: productId,
+          name: productName,
+          slug: productName.toLowerCase().replace(/\s+/g, '-'),
+          category: base.category,
+          price: Math.floor(base.price * wood.priceMod / 100) * 100,
+          description: base.desc,
+          image: getImageForCategory(base.category),
+          dimensions: '180cm x 200cm x 90cm', // Placeholder dimensions
+        };
+      })
     )
-).slice(0, 155); // Limit to 155 products for now
+  )
+).slice(0, 155); // Limit to 155 products
 
 
 export const carpenters: Carpenter[] = [

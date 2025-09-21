@@ -1,96 +1,35 @@
 
 {
   "placeholderImages": [
-    {
-      "id": "prod-1",
-      "description": "A luxurious royal oak sofa in a well-lit living room.",
-      "imageUrl": "https://picsum.photos/seed/prod1/600/400",
-      "imageHint": "luxury sofa"
-    },
-    {
-      "id": "prod-2",
-      "description": "A modernist bed with a sleek frame in a minimalist bedroom.",
-      "imageUrl": "https://picsum.photos/seed/prod2/600/400",
-      "imageHint": "modern bed"
-    },
-    {
-      "id": "prod-3",
-      "description": "A grand dining table made of mahogany, set for a formal dinner.",
-      "imageUrl": "https://picsum.photos/seed/prod3/600/400",
-      "imageHint": "dining table"
-    },
-    {
-      "id": "prod-4",
-      "description": "A handcrafted artisan coffee table with detailed carvings.",
-      "imageUrl": "https://picsum.photos/seed/prod4/600/400",
-      "imageHint": "coffee table"
-    },
-    {
-      "id": "prod-5",
-      "description": "An ergonomic office chair designed for comfort.",
-      "imageUrl": "https://picsum.photos/seed/prod5/600/400",
-      "imageHint": "office chair"
-    },
-    {
-      "id": "prod-6",
-      "description": "An elegant, classic heirloom wardrobe in a bedroom.",
-      "imageUrl": "https://picsum.photos/seed/prod6/600/400",
-      "imageHint": "classic wardrobe"
-    },
-    {
-      "id": "prod-7",
-      "description": "An ultra-luxurious premium sofa with velvet upholstery.",
-      "imageUrl": "https://picsum.photos/seed/prod7/600/400",
-      "imageHint": "premium sofa"
-    },
-    {
-      "id": "prod-8",
-      "description": "A compact and affordable study table in a small room.",
-      "imageUrl": "https://picsum.photos/seed/prod8/600/400",
-      "imageHint": "study table"
-    },
-    {
-      "id": "prod-9",
-      "description": "A plush velvet armchair in a cozy corner.",
-      "imageUrl": "https://picsum.photos/seed/prod9/600/400",
-      "imageHint": "velvet armchair"
-    },
-    {
-      "id": "prod-10",
-      "description": "A king-sized bed with a rustic wooden frame.",
-      "imageUrl": "https://picsum.photos/seed/prod10/600/400",
-      "imageHint": "rustic bed"
-    },
-     {
-      "id": "prod-11",
-      "description": "A stylish bookshelf for a modern living room.",
-      "imageUrl": "https://picsum.photos/seed/prod11/600/400",
-      "imageHint": "stylish bookshelf"
-    },
-    {
-      "id": "prod-12",
-      "description": "A sectional sofa for a large family.",
-      "imageUrl": "https://picsum.photos/seed/prod12/600/400",
-      "imageHint": "sectional sofa"
-    },
-    {
-      "id": "prod-13",
-      "description": "A sleek and modern dresser for a bedroom.",
-      "imageUrl": "https://picsum.photos/seed/prod13/600/400",
-      "imageHint": "modern dresser"
-    },
-    {
-      "id": "prod-14",
-      "description": "A comfortable dining chair with a classic design.",
-      "imageUrl": "https://picsum.photos/seed/prod14/600/400",
-      "imageHint": "dining chair"
-    },
-    {
-      "id": "prod-15",
-      "description": "A minimalist sideboard for dining storage.",
-      "imageUrl": "https://picsum.photos/seed/prod15/600/400",
-      "imageHint": "minimalist sideboard"
-    },
+    { "id": "sofa-1", "imageUrl": "https://picsum.photos/seed/sofa1/600/400", "imageHint": "modern sofa" },
+    { "id": "sofa-2", "imageUrl": "https://picsum.photos/seed/sofa2/600/400", "imageHint": "chesterfield sofa" },
+    { "id": "sofa-3", "imageUrl": "https://picsum.photos/seed/sofa3/600/400", "imageHint": "sectional sofa" },
+    { "id": "sofa-4", "imageUrl": "https://picsum.photos/seed/sofa4/600/400", "imageHint": "loveseat sofa" },
+    { "id": "sofa-5", "imageUrl": "https://picsum.photos/seed/sofa5/600/400", "imageHint": "minimalist sofa" },
+    { "id": "beds-1", "imageUrl": "https://picsum.photos/seed/bed1/600/400", "imageHint": "platform bed" },
+    { "id": "beds-2", "imageUrl": "https://picsum.photos/seed/bed2/600/400", "imageHint": "canopy bed" },
+    { "id": "beds-3", "imageUrl": "https://picsum.photos/seed/bed3/600/400", "imageHint": "upholstered bed" },
+    { "id": "beds-4", "imageUrl": "https://picsum.photos/seed/bed4/600/400", "imageHint": "storage bed" },
+    { "id": "beds-5", "imageUrl": "https://picsum.photos/seed/bed5/600/400", "imageHint": "king size bed" },
+    { "id": "dining-1", "imageUrl": "https://picsum.photos/seed/dining1/600/400", "imageHint": "dining table" },
+    { "id": "dining-2", "imageUrl": "https://picsum.photos/seed/dining2/600/400", "imageHint": "round dining table" },
+    { "id": "dining-3", "imageUrl": "https://picsum.photos/seed/dining3/600/400", "imageHint": "dining set" },
+    { "id": "tables-1", "imageUrl": "https://picsum.photos/seed/table1/600/400", "imageHint": "coffee table" },
+    { "id": "tables-2", "imageUrl": "https://picsum.photos/seed/table2/600/400", "imageHint": "side table" },
+    { "id": "tables-3", "imageUrl": "https://picsum.photos/seed/table3/600/400", "imageHint": "console table" },
+    { "id": "chairs-1", "imageUrl": "https://picsum.photos/seed/chair1/600/400", "imageHint": "armchair" },
+    { "id": "chairs-2", "imageUrl": "https://picsum.photos/seed/chair2/600/400", "imageHint": "dining chair" },
+    { "id": "chairs-3", "imageUrl": "https://picsum.photos/seed/chair3/600/400", "imageHint": "lounge chair" },
+    { "id": "chairs-4", "imageUrl": "https://picsum.photos/seed/chair4/600/400", "imageHint": "accent chair" },
+    { "id": "chairs-5", "imageUrl": "https://picsum.photos/seed/chair5/600/400", "imageHint": "rocking chair" },
+    { "id": "wardrobes-1", "imageUrl": "https://picsum.photos/seed/wardrobe1/600/400", "imageHint": "wooden wardrobe" },
+    { "id": "wardrobes-2", "imageUrl": "https://picsum.photos/seed/wardrobe2/600/400", "imageHint": "sliding wardrobe" },
+    { "id": "wardrobes-3", "imageUrl": "https://picsum.photos/seed/wardrobe3/600/400", "imageHint": "mirrored wardrobe" },
+    { "id": "storage-1", "imageUrl": "https://picsum.photos/seed/storage1/600/400", "imageHint": "bookshelf" },
+    { "id": "storage-2", "imageUrl": "https://picsum.photos/seed/storage2/600/400", "imageHint": "chest drawers" },
+    { "id": "storage-3", "imageUrl": "https://picsum.photos/seed/storage3/600/400", "imageHint": "sideboard" },
+    { "id": "office-1", "imageUrl": "https://picsum.photos/seed/office1/600/400", "imageHint": "office desk" },
+    { "id": "office-2", "imageUrl": "https://picsum.photos/seed/office2/600/400", "imageHint": "office chair" },
     {
       "id": "carpenter-1",
       "description": "Portrait of a skilled male carpenter.",
