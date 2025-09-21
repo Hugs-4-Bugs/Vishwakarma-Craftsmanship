@@ -47,7 +47,7 @@ function Hero() {
         </motion.div>
 
         <motion.div
-          className="relative z-20 flex h-full flex-col items-center justify-center text-center text-white"
+          className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white"
           style={{ opacity: opacityHero }}
         >
           <div className="container mx-auto px-4">
