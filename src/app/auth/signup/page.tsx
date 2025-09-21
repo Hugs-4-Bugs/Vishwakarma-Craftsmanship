@@ -220,7 +220,7 @@ export default function SignupPage() {
                     <div className="space-y-2">
                         <Label htmlFor="mobile-otp">Mobile OTP</Label>
                         <div className="flex gap-2">
-                            <Input id="mobile-otp" type="text" placeholder="Enter 6-digit OTP" value={mobileOtp} onChange={(e) => setMobileOtp(e.targe.value)} maxLength={6} />
+                            <Input id="mobile-otp" type="text" placeholder="Enter 6-digit OTP" value={mobileOtp} onChange={(e) => setMobileOtp(e.target.value)} maxLength={6} />
                             <Button type="button" onClick={() => handleVerifyOtp('mobile')}>Verify OTP</Button>
                         </div>
                     </div>
@@ -270,3 +270,6 @@ export default function SignupPage() {
   );
 }
 
+
+
+    
