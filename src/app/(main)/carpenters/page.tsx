@@ -8,12 +8,16 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Search, Wrench } from 'lucide-react';
 import type { Carpenter } from '@/lib/types';
+import { Slider } from '@/components/ui/slider';
+import { Label } from '@/components/ui/label';
 
 const allSpecialties = Array.from(new Set(carpenters.flatMap(c => c.specialty)));
+const maxExperience = Math.max(...carpenters.map(c => c.experience), 30);
 
 export default function CarpentersPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
+    const [experienceRange, setExperienceRange] = useState([0, maxExperience]);
 
     const handleSpecialtyToggle = (specialty: string) => {
         setSelectedSpecialties(prev => 
@@ -27,9 +31,10 @@ export default function CarpentersPage() {
         return carpenters.filter(carpenter => {
             const matchesQuery = carpenter.name.toLowerCase().includes(searchQuery.toLowerCase());
             const matchesSpecialty = selectedSpecialties.length === 0 || selectedSpecialties.every(spec => carpenter.specialty.includes(spec));
-            return matchesQuery && matchesSpecialty;
+            const matchesExperience = carpenter.experience >= experienceRange[0] && carpenter.experience <= experienceRange[1];
+            return matchesQuery && matchesSpecialty && matchesExperience;
         });
-    }, [searchQuery, selectedSpecialties]);
+    }, [searchQuery, selectedSpecialties, experienceRange]);
 
     return (
         <div className="bg-background">
@@ -42,9 +47,9 @@ export default function CarpentersPage() {
                 </div>
 
                 <div className="max-w-4xl mx-auto mb-8 p-6 bg-card rounded-lg shadow-sm">
-                    <div className="grid sm:grid-cols-2 gap-6">
+                    <div className="space-y-6">
                         <div className="space-y-2">
-                            <label htmlFor="search" className="font-medium">Search by Name</label>
+                            <Label htmlFor="search" className="font-medium">Search by Name</Label>
                             <div className="relative">
                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                                 <Input 
@@ -56,8 +61,23 @@ export default function CarpentersPage() {
                                 />
                             </div>
                         </div>
+
+                        <div className="space-y-3">
+                           <Label className="font-medium">Filter by Experience (Years)</Label>
+                           <Slider 
+                             value={experienceRange} 
+                             onValueChange={setExperienceRange}
+                             max={maxExperience} 
+                             step={1}
+                           />
+                           <div className="flex justify-between text-xs text-muted-foreground">
+                               <span>{experienceRange[0]} yrs</span>
+                               <span>{experienceRange[1]} yrs</span>
+                           </div>
+                        </div>
+                        
                         <div className="space-y-2">
-                             <label className="font-medium">Filter by Skill</label>
+                             <Label className="font-medium">Filter by Skill</Label>
                              <div className="flex flex-wrap gap-2">
                                 {allSpecialties.map(spec => (
                                     <button key={spec} onClick={() => handleSpecialtyToggle(spec)}>
