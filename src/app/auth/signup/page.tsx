@@ -1,13 +1,14 @@
 
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Checkbox } from '@/components/ui/checkbox';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { ArrowLeft } from 'lucide-react';
 
 function GoogleIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -23,6 +24,8 @@ function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
 }
 
 export default function SignupPage() {
+  const [role, setRole] = useState('customer');
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4 py-12">
        <div className="w-full max-w-md">
@@ -37,6 +40,36 @@ export default function SignupPage() {
           </CardHeader>
           <CardContent>
             <form className="space-y-4">
+               <div className="space-y-3">
+                <Label>I am signing up as a...</Label>
+                <RadioGroup defaultValue="customer" value={role} onValueChange={setRole} className="grid grid-cols-2 gap-4">
+                  <div>
+                    <RadioGroupItem value="customer" id="customer" className="peer sr-only" />
+                    <Label
+                      htmlFor="customer"
+                      className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                    >
+                      Customer
+                    </Label>
+                  </div>
+                  <div>
+                    <RadioGroupItem value="admin" id="admin" className="peer sr-only" />
+                    <Label
+                      htmlFor="admin"
+                      className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                    >
+                      Admin
+                    </Label>
+                  </div>
+                </RadioGroup>
+                 <p className="text-xs text-muted-foreground">
+                    {role === 'admin' 
+                      ? 'Admin accounts require approval from a super-admin.'
+                      : 'Get access to your orders, wishlist, and recommendations.'
+                    }
+                 </p>
+              </div>
+
               <div className="space-y-2">
                 <Label htmlFor="name">Full Name</Label>
                 <Input id="name" type="text" placeholder="John Doe" required />
