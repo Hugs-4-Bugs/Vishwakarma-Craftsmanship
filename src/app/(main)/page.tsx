@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Link from 'next/link';
@@ -56,7 +57,7 @@ function Hero() {
           style={{ opacity: opacityHero }}
         >
           <div className="container mx-auto px-4 flex flex-col flex-grow text-white text-center">
-            <div className="flex-1 flex flex-col items-center justify-center">
+            <div className="flex-1 flex flex-col items-center justify-end pb-12">
                 <h1 className="font-headline text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
                   Style Your Home with
                 </h1>
