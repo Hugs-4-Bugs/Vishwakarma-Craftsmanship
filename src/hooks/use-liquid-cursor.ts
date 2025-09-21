@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useSpring } from 'framer-motion';
 
 export function useLiquidCursor() {
-  const springConfig = { damping: 25, stiffness: 300, mass: 0.5 };
+  const springConfig = { damping: 30, stiffness: 500, mass: 0.5 };
   const x = useSpring(0, springConfig);
   const y = useSpring(0, springConfig);
 
