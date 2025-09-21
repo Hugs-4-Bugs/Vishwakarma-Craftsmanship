@@ -1,3 +1,4 @@
+
 import type { Product, Carpenter, BlogPost } from './types';
 
 export const categories = [
