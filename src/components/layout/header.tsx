@@ -52,7 +52,8 @@ export function Header() {
   );
 
   const iconButtonClasses = cn(
-    (isScrolled || !isHomePage) ? '' : 'text-white hover:text-white hover:bg-white/10'
+    'transition-colors',
+    (isScrolled || !isHomePage) ? 'text-foreground/80 hover:text-primary' : 'text-white hover:text-white hover:bg-white/10'
   );
 
   return (

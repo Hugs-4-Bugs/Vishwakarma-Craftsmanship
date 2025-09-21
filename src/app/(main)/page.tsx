@@ -53,14 +53,14 @@ function Hero() {
         </motion.div>
 
         <motion.div
-          className="relative z-20 flex h-full flex-col items-center justify-center text-center text-white"
+          className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white"
           style={{ opacity: opacityHero }}
         >
-          <div className="container mx-auto px-4 pt-20">
-            <h1 className="font-headline text-4xl font-bold tracking-tight text-white md:text-6xl lg:text-7xl">
+          <div className="container mx-auto px-4 pt-20 md:pt-24">
+            <h1 className="font-headline text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
               Style Your Home with
             </h1>
-            <h2 className="font-headline mt-2 text-5xl font-bold tracking-tight text-primary md:text-7xl lg:text-8xl">
+            <h2 className="font-headline mt-2 text-5xl font-bold tracking-tight text-primary sm:text-6xl md:text-7xl lg:text-8xl">
               Vishwakarma Craftsmanship
             </h2>
             <p className="mx-auto mt-6 max-w-3xl text-base text-white/80 md:text-xl">
