@@ -84,11 +84,11 @@ export function useLiquidCursor() {
         el.removeEventListener('mouseenter', onMouseEnter);
         el.removeEventListener('mouseleave', onMouseLeave);
       });
-      if (document.body.contains(cursorRoot!)) {
+      if (cursorRoot && document.body.contains(cursorRoot)) {
         // document.body.removeChild(cursorRoot!);
       }
       unsubscribeX();
       unsubscribeY();
     };
-  }, []);
+  }, [x, y]);
 }
