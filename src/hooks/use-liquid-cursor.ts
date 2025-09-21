@@ -1,10 +1,14 @@
 
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { motion, useSpring } from 'framer-motion';
+import { useEffect } from 'react';
+import { useSpring } from 'framer-motion';
 
 export function useLiquidCursor() {
+  const springConfig = { damping: 25, stiffness: 300 };
+  const x = useSpring(-100, springConfig);
+  const y = useSpring(-100, springConfig);
+
   useEffect(() => {
     const isTouchDevice = 'ontouchstart' in window;
     if (isTouchDevice) {
@@ -27,10 +31,6 @@ export function useLiquidCursor() {
     let pos = { x: 0, y: 0 };
     const speed = 0.1;
     
-    const springConfig = { damping: 25, stiffness: 300 };
-    const x = useSpring(mouse.x, springConfig);
-    const y = useSpring(mouse.y, springConfig);
-
     const updatePosition = () => {
       pos.x += (mouse.x - pos.x) * speed;
       pos.y += (mouse.y - pos.y) * speed;
@@ -88,7 +88,9 @@ export function useLiquidCursor() {
         el.removeEventListener('mouseenter', onMouseEnter);
         el.removeEventListener('mouseleave', onMouseLeave);
       });
-      cursorRoot.remove();
+      if (document.body.contains(cursorRoot)) {
+        document.body.removeChild(cursorRoot);
+      }
     };
-  }, []);
+  }, [x, y]);
 }
