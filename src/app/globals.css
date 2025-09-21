@@ -82,19 +82,20 @@
     filter: url('#goo');
   }
 
-  /* The main visible cursor dot */
+  /* The main visible cursor ring */
   #liquid-cursor {
-    @apply absolute top-0 left-0 rounded-full bg-primary;
-    width: 25px;
-    height: 25px;
+    @apply absolute top-0 left-0 rounded-full border-2 border-primary bg-transparent;
+    width: 30px;
+    height: 30px;
     transform: translate(var(--x, -50px), var(--y, -50px)) translate(-50%, -50%);
-    transition: width 0.3s ease, height 0.3s ease;
-    will-change: width, height, transform;
+    transition: width 0.3s ease, height 0.3s ease, border-width 0.3s ease;
+    will-change: width, height, transform, border-width;
   }
 
   #liquid-cursor.grow {
     width: 60px;
     height: 60px;
+    @apply border-4;
   }
 
   /*
